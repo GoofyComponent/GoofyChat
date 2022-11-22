@@ -44,13 +44,6 @@ RUN set -eux; \
 		opcache \
     ;
 
-# RUN docker-php-ext-install mysqli pdo pdo_mysql \
-#     && a2enmod rewrite
-
-#install pdo et mysqli depuis le dockerfile
-RUN docker-php-ext-install pdo pdo_mysql \
-	&& docker-php-ext-enable pdo pdo_mysql
-
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
 RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \

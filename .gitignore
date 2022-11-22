@@ -8,3 +8,9 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+#PERSONAL
+old
+.env
+.env
+node_modules
