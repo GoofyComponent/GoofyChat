@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
-import "./App.css";
+import "../../css/sidebar.css";
 
-function App() {
+function sidebar() {
   return (
     <>
-      <h1>test</h1>
+      <h1>ptit test</h1>
     </>
   );
 }
 
-export default App;
+export default sidebar;
