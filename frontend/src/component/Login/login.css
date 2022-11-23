@@ -1,0 +1,24 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+body {
+  height : 100vh ;
+  width : 100vw;
+  position : relative ;
+}
+form {
+  background : rgba( 255, 255, 255, 0.25 );
+  backdrop-filter: blur( 4px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  width : 400px;
+  height : 450px;
+  margin : 0 auto;
+  position : absolute ; 
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  top: 50%; left: 50%; /* à 50%/50% du parent référent */
+  transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+}
+button {
+  border : none;
+  backdrop : none;
+  text-decoration : underline ; 
+}

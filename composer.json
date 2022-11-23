@@ -12,14 +12,17 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "fakerphp/faker": "^1.20",
+        "firebase/php-jwt": "^6.3",
+        "nelmio/cors-bundle": "^2.2",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.1.*",
-        "symfony/mercure-bundle": "^0.3.5",
         "symfony/proxy-manager-bridge": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
         "symfony/yaml": "6.1.*"
     },
     "config": {
@@ -32,8 +35,7 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true,
-        "platform-check": false
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -77,6 +79,10 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.48"
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "symfony/maker-bundle": "^1.48",
+        "symfony/stopwatch": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*",
+        "zenstruck/foundry": "^1.23"
     }
 }
