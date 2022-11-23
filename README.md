@@ -1,14 +1,16 @@
-# :sob::sob::sob::sob::sob::sob::sob::sob:
+# Symfony Docker
 
-POUR INSTALLER TU FAIT :
+A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
 
--   composer update
--   composer install
--   lancer `docker-compose down --remove-orphans --volumes` pas grave si ca foire
--   docker-compose build --no-cache --pull
--   docker-compose up -d
+![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
-Ensuite dans le cli PHP de docker tu fais :
+## Lancement
 
--   php bin/console make:migration
--   php bin/console doctrine:migrations:migrate
+1. `composer update`
+2. `composer install`
+3. `docker compose build --pull --no-cache`
+4. `docker compose up`
+
+Pour stopper :
+
+-   Run `docker compose down --remove-orphans` to stop the Docker containers.
