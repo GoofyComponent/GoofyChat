@@ -45,6 +45,7 @@ final class UserFactory extends ModelFactory
             'password' => password_hash('password', PASSWORD_BCRYPT),
             'lastname' => self::faker()->lastName(),
             'firstname' => self::faker()->firstName(),
+            'username' => self::faker()->userName(),
         ];
     }
 
