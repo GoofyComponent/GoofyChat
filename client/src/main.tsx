@@ -1,11 +1,25 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import Message from './Message/Message'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import Message from "./Message/Message";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import "./index.css";
+import RetreiveConv from "./components/dev/RetreiveConv";
+import { Login } from "./components/auth/Login";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/",
+    element: <RetreiveConv />,
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Message />
+    <RouterProvider router={router} />
   </React.StrictMode>
-)
+);

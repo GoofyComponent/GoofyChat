@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class SecurityController extends AbstractController
 {
 
-    #[Route('/register', name: 'register', methods: ['POST'])]
+    #[Route('/api/register', name: 'register', methods: ['POST'])]
     public function register(Request $request, ManagerRegistry $doctrine): Response
     {
         $email=$request->request->get('email');
@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/api/login", name="app_login")
      */
     public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
     {
