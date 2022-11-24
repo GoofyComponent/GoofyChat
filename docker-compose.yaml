@@ -3,41 +3,44 @@ version: "3.8"
 services:
   symfony:
     build: symfony_config
-    container_name: goofychat_symfony
+    container_name: symfony_docker
     ports:
       - "8245:80"
     volumes:
       - ./symfony_config/vhosts:/etc/apache2/sites-enabled
       - ./symfony_project:/var/www/symfony_project
-    restart: always
+    restart: on-failure
     networks:
       - dev
+    # entrypoint: /bin/bash -c "cd symfony_project && composer install"
 
   maildev:
     image: maildev/maildev
-    container_name: goofychat_maildev
+    container_name: maildev_docker
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     ports:
       - "8081:80"
-    restart: always
+    restart: on-failure
     networks:
       - dev
 
   db:
     image: mariadb:10.7.1
-    container_name: goofychat_db
-    restart: always
+    container_name: mariadb_docker
+    restart: on-failure
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "ChangeMeLater"
+      MYSQL_DATABASE: data
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
     networks:
       - dev
 
   phpmyadmin:
     image: phpmyadmin
-    container_name: goofychat_phpmyadmin
-    restart: always
+    container_name: phpmyadmin_docker
+    restart: on-failure
     depends_on:
       - db
     ports:
@@ -50,13 +53,13 @@ services:
   caddy:
     image: dunglas/mercure
     restart: unless-stopped
-    container_name: goofychat_mercure
+    container_name: mercure_docker
     environment:
       # Uncomment the following line to disable HTTPS
       SERVER_NAME: ":80"
       MERCURE_PUBLISHER_JWT_KEY: "!ChangeMe!"
       MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeMe!"
-      MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:3000"
+      MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:5432"
         cors_origins "http://localhost:8245"
     #                anonymous
     # Uncomment the following line to enable the development mode
