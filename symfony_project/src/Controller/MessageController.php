@@ -38,8 +38,10 @@ class MessageController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
+        $userUsername = $this->getUser()->getUsername();
+
         $update = new Update(
-            'http://localhost:8000/conversation/'.$conv_id,
+            'http://localhost:9090/conversation/'.$userUsername.'/'.$conv_id,
             json_encode([
                 'message' => $messageReceived,
                 'author' => $user,

@@ -9,10 +9,9 @@ services:
     volumes:
       - ./symfony_config/vhosts:/etc/apache2/sites-enabled
       - ./symfony_project:/var/www/symfony_project
-    restart: on-failure
+    restart: always
     networks:
       - dev
-    # entrypoint: /bin/bash -c "cd symfony_project && composer install"
 
   maildev:
     image: maildev/maildev
@@ -20,14 +19,14 @@ services:
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     ports:
       - "8081:80"
-    restart: on-failure
+    restart: always
     networks:
       - dev
 
   db:
     image: mariadb:10.7.1
     container_name: mariadb_docker
-    restart: on-failure
+    restart: always
     volumes:
       - db-data:/var/lib/mysql
     environment:
@@ -40,7 +39,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin_docker
-    restart: on-failure
+    restart: always
     depends_on:
       - db
     ports:
@@ -59,7 +58,7 @@ services:
       SERVER_NAME: ":80"
       MERCURE_PUBLISHER_JWT_KEY: "!ChangeMe!"
       MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeMe!"
-      MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:5432"
+      MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:3000"
         cors_origins "http://localhost:8245"
     #                anonymous
     # Uncomment the following line to enable the development mode

@@ -35,7 +35,7 @@ class CookieHelper
         );
     }
 
-    public function buildCookie(): string
+/*     public function buildCookie(): string
     {
 
         return Cookie::create(
@@ -49,5 +49,5 @@ class CookieHelper
             false,
             Cookie::SAMESITE_STRICT
         );
-    }
+    } */
 }

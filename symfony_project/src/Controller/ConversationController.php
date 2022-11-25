@@ -20,8 +20,6 @@ class ConversationController extends AbstractController
         $conv_name = $parameters['conv_name'];
         $usersEmail = $parameters['usersEmail'];
 
-
-
         //Check if conv_name already exists
         $ifConvNameExist = $doctrine->getRepository(Conversation::class)->findOneBy(['name' => $conv_name]);
 
@@ -35,6 +33,7 @@ class ConversationController extends AbstractController
         $conversation->setName($conv_name);
         $conversation->setCreatedAt(new \DateTimeImmutable());
 
+        $conversation->addMember($this->getUser());
         foreach ($usersEmail as $email) {
             $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
             $conversation->addMember($user);

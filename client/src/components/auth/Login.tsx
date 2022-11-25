@@ -29,6 +29,7 @@ export const Login = () => {
         const JWT = res.data.token;
         console.log(JWT);
         accountService.saveToken(JWT);
+        console.log("Local storage: " + localStorage.getItem("token_JWT"));
       })
       .catch((err) => console.log(err))
       .finally(() => {
