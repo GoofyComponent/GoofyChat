@@ -13,6 +13,8 @@ Ensuite faire:
 
 Puis dans la console symfony:
 
-1. `php bin/console doctrine:database:create`
-2. `php bin/console doctrine:migrations:migrate`
-3. `php bin/console doctrine:fixtures:load`
+1. `cd symfony_project`
+2. `php bin/console doctrine:database:drop --force`
+3. `php bin/console doctrine:database:create`
+4. `php bin/console doctrine:migrations:migrate`
+5. `php bin/console doctrine:fixtures:load`

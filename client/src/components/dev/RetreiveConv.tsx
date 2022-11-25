@@ -59,9 +59,45 @@ const RetreiveConv = () => {
 
 const PostList = () => {
   const [message, setMessage] = useState("");
+
+  const handleMessageSend = () => {
+    console.log(message);
+
+    console.log(localStorage.getItem("token"));
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accountService.getJWT()}`,
+      },
+    };
+
+    axios
+      .post(
+        `http://localhost:8245/api/message/publish/${2}`,
+        {
+          message: message,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setMessage("");
+      });
+  };
+
   return (
     <>
-      <div>VOIS LA CONSOLE</div>
+      <input
+        aria-label="message"
+        type="text"
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={() => handleMessageSend()}>Send</button>
     </>
   );
 };

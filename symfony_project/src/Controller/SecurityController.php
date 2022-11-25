@@ -71,9 +71,10 @@ class SecurityController extends AbstractController
     /**
      * @Route("/api/login", name="app_login")
      */
-    public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
+    /* public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
     {
         /** @var $user User */
+        /*
         if ($user = $this->getUser()) {
             return $this->json([
                 'JWT' => $helper->createJWT($user),
@@ -88,7 +89,7 @@ class SecurityController extends AbstractController
             'message' => 'Bad credentials',
             'Authorization' => 'Basic'
         ]);
-    }
+    } */
 
     /**
      * @Route("/logout", name="app_logout")

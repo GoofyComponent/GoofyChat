@@ -12,25 +12,28 @@ export const Login = () => {
     console.log(email);
     console.log(password);
 
-    var basicAuth = "Basic " + btoa(email + ":" + password);
     var url = "http://localhost:8245/api/login";
-    var headers = {
-      Authorization: basicAuth,
-    };
+    var headers = {};
 
-    // rejectUnauthorized: false
     axios
-      .post(url, {}, { headers: headers })
+      .post(
+        url,
+        {
+          username: email,
+          password: password,
+        },
+        { headers: headers }
+      )
       .then((res) => {
         console.log(res);
-        const JWT = res.data.JWT;
+        const JWT = res.data.token;
         console.log(JWT);
         accountService.saveToken(JWT);
       })
       .catch((err) => console.log(err))
       .finally(() => {
         /* return redirect("/"); */
-        return (window.location.href = "/");
+        //return (window.location.href = "/");
       });
   };
 
