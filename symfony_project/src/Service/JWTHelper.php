@@ -36,17 +36,4 @@ class JWTHelper
             return false;
         }
     }
-
-    public function extractUserFromJwt(string $jwt): ?User
-    {
-        if (!$this->isJwtValid($jwt)) {
-            return null;
-        }
-        try {
-            $decoded = JWT::decode($jwt, new Key($this->mercureSecret, 'HS256'), ['HS256']);
-            return $decoded->mercure->payload->userid;
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
 }
