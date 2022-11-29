@@ -118,6 +118,7 @@ const SubscribeConv = () => {
       .then((res) => {
         console.log(res);
         //set the mercureCookie
+        accountService.createMercureCookie(res.data.mercurePersonalJWT);
       })
       .catch((err) => {
         console.log(err);
@@ -125,14 +126,14 @@ const SubscribeConv = () => {
   }, []);
 
   const subscribe = () => {
-    const url = new URL("http://localhost:8245/.well-known/mercure");
+    const url = new URL("http://localhost:9090/.well-known/mercure");
 
-    url.searchParams.append("topic", "http://localhost:8245/api/mercure");
-
-    const eventSource = new EventSource(
-      "http://localhost:8245/api/mercure/subscribe",
-      { withCredentials: true }
+    url.searchParams.append(
+      "topic",
+      "https://goofychat-mercure/conversation/3"
     );
+
+    const eventSource = new EventSource(url, { withCredentials: true });
 
     eventSource.onmessage = (e) => {
       console.log(e);
@@ -146,4 +147,4 @@ const SubscribeConv = () => {
   );
 };
 
-export default RetreiveConv;
+export default SubscribeConv;

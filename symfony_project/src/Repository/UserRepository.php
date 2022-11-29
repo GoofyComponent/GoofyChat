@@ -56,6 +56,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    /**
+     * @return Conversation[] Returns an array of Conversation objects
+     * Made to get all conversations of a user
+     */
+    public function findConversationsByUser(User $user): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT `conversation_id` 
+            FROM `conversation_user` 
+            WHERE `user_id` = :user_id;
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resNotClean = $stmt->executeQuery(['user_id' => $user->getId()])->fetchAllAssociative();
+
+        $cleanRes = [];
+        foreach ($resNotClean as $res) {
+            $cleanRes[] = $res['conversation_id'];
+        }
+    
+        return $cleanRes;
+    }
+     
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

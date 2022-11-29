@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\CookieHelper;
 use App\Service\JWTHelper;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,20 +67,13 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/api/mercureLogin', name: 'mercureLogin', methods: ['POST'])]
-    public function mercureLogin(CookieHelper $cookieHelper): Response
+    public function mercureLogin(JWTHelper $JWTHelper, UserRepository $UserRepository): Response
     {
         $user = $this->getUser();
 
-        $mercureCookie = $cookieHelper->createMercureCookie($user);
-
         return $this->json([
             'status'=>'success',
-            'message' => 'User logged in',
-            'mercureCookie' => $mercureCookie
-        ],
-        200,
-        [
-            'Set-Cookie' => $mercureCookie
+            "mercurePersonalJWT"=>$JWTHelper->createJWT($user, $UserRepository),
         ]);
     }
 

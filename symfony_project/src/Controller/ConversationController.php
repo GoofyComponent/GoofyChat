@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Entity\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,6 +86,13 @@ class ConversationController extends AbstractController
         if (!$conversation) {
             return $this->json([
                 'message' => 'Conversation not found',
+            ], 400);
+        }
+
+        $user=$this->getUser();
+        if (!$conversation->getMembers()->contains($user)) {
+            return $this->json([
+                'message' => 'Not a member of this conversation',
             ], 400);
         }
 

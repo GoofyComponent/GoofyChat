@@ -15,9 +15,17 @@ let getJWT = () => {
   return localStorage.getItem("token_JWT");
 };
 
+let createMercureCookie = async (JWT: string) => {
+  const d = new Date();
+  d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+  const expires = "expires=" + d.toUTCString();
+  document.cookie = `mercureAuthorization=${JWT};path=/.well-know/mercure;${expires}, domain=${"localhost"}, httpOnly`;
+};
+
 export const accountService = {
   saveToken,
   logout,
   islogedIn,
   getJWT,
+  createMercureCookie,
 };

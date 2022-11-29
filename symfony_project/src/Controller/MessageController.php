@@ -15,13 +15,14 @@ use Symfony\Component\Mercure\Update;
 class MessageController extends AbstractController
 {
 
-    #[Route('/api/message/publish/{conv_id}', name: 'app_message_publish', methods: ['POST'] )]
-    public function publish_message($conv_id, Request $request, ManagerRegistry $doctrine, HubInterface $hub): Response
+    #[Route('/api/message/publish', name: 'app_message_publish', methods: ['POST'] )]
+    public function publish_message(Request $request, ManagerRegistry $doctrine, HubInterface $hub): Response
     {
         
         $data = $request->getContent();
         $data = json_decode($data, true);
         $messageReceived = $data['message'];
+        $conv_id = $data['conv_id'];
         
         $user = $this->getUser();
 
@@ -38,10 +39,8 @@ class MessageController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
-        $userUsername = $this->getUser()->getUsername();
-
         $update = new Update(
-            'http://localhost:9090/conversation/'.$userUsername.'/'.$conv_id,
+            'https://goofychat-mercure/conversation/'.$conv_id,
             json_encode([
                 'message' => $messageReceived,
                 'author' => $user,

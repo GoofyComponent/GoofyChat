@@ -1,0 +1,42 @@
+import { useState } from "react";
+
+import axios from "axios";
+import { accountService } from "../../helpers/authHelpers";
+
+const Send = () => {
+  const [message, setMessage] = useState("");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accountService.getJWT()}`,
+    },
+  };
+
+  const handleMessageSend = () => {
+    console.log(message);
+    axios
+      .post(
+        "http://localhost:8245/api/message/publish",
+        {
+          content: message,
+          conv_id: 3,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <>
+      <input type="text" onChange={(e) => setMessage(e.target.value)} />
+      <button onClick={() => handleMessageSend()}>Send</button>
+    </>
+  );
+};
+
+export default Send;
