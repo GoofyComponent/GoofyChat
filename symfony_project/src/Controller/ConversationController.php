@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Entity\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +21,6 @@ class ConversationController extends AbstractController
         $conv_name = $parameters['conv_name'];
         $usersEmail = $parameters['usersEmail'];
 
-
-
         //Check if conv_name already exists
         $ifConvNameExist = $doctrine->getRepository(Conversation::class)->findOneBy(['name' => $conv_name]);
 
@@ -35,6 +34,7 @@ class ConversationController extends AbstractController
         $conversation->setName($conv_name);
         $conversation->setCreatedAt(new \DateTimeImmutable());
 
+        $conversation->addMember($this->getUser());
         foreach ($usersEmail as $email) {
             $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
             $conversation->addMember($user);
@@ -52,8 +52,13 @@ class ConversationController extends AbstractController
 
 
     #[Route('/api/conversation/delete/{id}', name: 'app_conversation_delete')]
-    public function delete_conversation($id, ManagerRegistry $doctrine): Response
+    public function delete_conversation(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        $datas = $request->getContent();
+        $datas = json_decode($datas, true);
+        $id = $datas['conv_id'];
+        
         //Check if the conversation exists, if not return 404
         $conversation = $doctrine->getRepository(Conversation::class)->findOneBy(['id' => $id]);
         if (!$conversation) {
@@ -73,8 +78,19 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/api/conversation/{id}', name: 'app_conversation_get')]
-    public function get_conversation($id, ManagerRegistry $doctrine): Response
+    public function get_conversation(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        $datas = $request->getContent();
+        $datas = json_decode($datas, true);
+        $id = $datas['conv_id'];
+
+        if (!$id) {
+            return $this->json([
+                'message' => 'Please provide a conversation id',
+            ], 400);
+        }
+
         try {
             $conversation = $doctrine->getRepository(Conversation::class)->find($id);
         } catch (\Throwable $th) {
@@ -83,9 +99,10 @@ class ConversationController extends AbstractController
             ], 400);
         }
 
-        if (!$conversation) {
+        $user=$this->getUser();
+        if (!$conversation->getMembers()->contains($user)) {
             return $this->json([
-                'message' => 'Conversation not found',
+                'message' => 'Not a member of this conversation',
             ], 400);
         }
 

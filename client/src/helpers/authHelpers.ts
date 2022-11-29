@@ -1,32 +1,31 @@
-import jwt_decode from "jwt-decode";
-
 let saveToken = async (JWT: string) => {
-  await localStorage.setItem("JWT", JWT);
+  await localStorage.setItem("token_JWT", JWT);
 };
 
 let logout = () => {
-  localStorage.removeItem("JWT");
+  localStorage.removeItem("token_JWT");
 };
 
 let islogedIn = () => {
-  let JWT = localStorage.getItem("JWT");
+  let JWT = localStorage.getItem("token_JWT");
   return !!JWT;
 };
 
-let extractMailFromJWT = () => {
-  let JWT = localStorage.getItem("JWT");
-  console.log(JWT);
-  if (JWT) {
-    let decoded: any = jwt_decode(JWT);
-    console.log(decoded);
-    return decoded.mercure.payload.email;
-  }
-  return null;
+let getJWT = () => {
+  return localStorage.getItem("token_JWT");
+};
+
+let createMercureCookie = async (JWT: string) => {
+  const d = new Date();
+  d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+  const expires = "expires=" + d.toUTCString();
+  document.cookie = `mercureAuthorization=${JWT};path=/.well-know/mercure;${expires}, domain=${"localhost"}, httpOnly`;
 };
 
 export const accountService = {
   saveToken,
   logout,
   islogedIn,
-  extractMailFromJWT,
+  getJWT,
+  createMercureCookie,
 };

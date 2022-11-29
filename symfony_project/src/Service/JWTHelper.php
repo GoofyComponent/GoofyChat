@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use App\Repository\UserRepository;
 
 class JWTHelper
 {
@@ -15,10 +16,24 @@ class JWTHelper
         $this->mercureSecret = $mercureSecret;
     }
 
-    public function createJWT(User $user): string
+    public function createJWT(User $user, UserRepository $UserRepository): string
     {
+
+        //Get the list of the conversation the user is in
+        $convs = $UserRepository->findConversationsByUser($user);
+
+        $subscribe=[];
+        $publish=[];
+        foreach ($convs as $conv) {
+            //$subscribe[] = "https://example.com/user/{$user->getId()}/{?topic}";
+            $subscribe[] = "https://goofychat-mercure/conversation/{$conv}";
+            $publish[] = "https://goofychat-mercure/conversation/{$conv}";
+        }
+        
+
         $payload = ["mercure" => [
-            "subscribe" => ["https://example.com/user/{$user->getId()}/{?topic}"],
+            "subscribe" => $subscribe,
+            "publish" => $publish,
             "payload" => [
                 "email" => $user->getEmail(),
                 "userid" => $user->getId()

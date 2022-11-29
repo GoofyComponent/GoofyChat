@@ -13,6 +13,17 @@ Ensuite faire:
 
 Puis dans la console symfony:
 
-1. `php bin/console doctrine:database:create`
-2. `php bin/console doctrine:migrations:migrate`
-3. `php bin/console doctrine:fixtures:load`
+1. `cd symfony_project`
+2. `php bin/console doctrine:database:drop --force`
+3. `php bin/console doctrine:database:create`
+4. `php bin/console make:migration`
+5. `php bin/console doctrine:migrations:migrate`
+6. `php bin/console doctrine:fixtures:load`
+7. `php bin/console lexik:jwt:generate-keypair`
+
+## Après tout changement du docker
+
+:warning: **Valable aussi pour chaque repull du repo**
+
+1. `docker compose down`
+2. `docker compose up -d`
