@@ -56,8 +56,8 @@ services:
     environment:
       # Uncomment the following line to disable HTTPS
       SERVER_NAME: ":80"
-      MERCURE_PUBLISHER_JWT_KEY: "!ChangeMe!"
-      MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeMe!"
+      MERCURE_PUBLISHER_JWT_KEY: "!ChangeThisMercureSecretKeyWithAKeyGreaterThan256Bits!"
+      MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeThisMercureSecretKeyWithAKeyGreaterThan256Bits!"
       MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:5173"
         cors_origins "http://127.0.0.1:5173"
     # Uncomment the following line to enable the development mode

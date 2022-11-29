@@ -52,8 +52,13 @@ class ConversationController extends AbstractController
 
 
     #[Route('/api/conversation/delete/{id}', name: 'app_conversation_delete')]
-    public function delete_conversation($id, ManagerRegistry $doctrine): Response
+    public function delete_conversation(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        $datas = $request->getContent();
+        $datas = json_decode($datas, true);
+        $id = $datas['conv_id'];
+        
         //Check if the conversation exists, if not return 404
         $conversation = $doctrine->getRepository(Conversation::class)->findOneBy(['id' => $id]);
         if (!$conversation) {
@@ -73,17 +78,22 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/api/conversation/{id}', name: 'app_conversation_get')]
-    public function get_conversation($id, ManagerRegistry $doctrine): Response
+    public function get_conversation(Request $request, ManagerRegistry $doctrine): Response
     {
-        try {
-            $conversation = $doctrine->getRepository(Conversation::class)->find($id);
-        } catch (\Throwable $th) {
+
+        $datas = $request->getContent();
+        $datas = json_decode($datas, true);
+        $id = $datas['conv_id'];
+
+        if (!$id) {
             return $this->json([
-                'message' => 'Conversation not found',
+                'message' => 'Please provide a conversation id',
             ], 400);
         }
 
-        if (!$conversation) {
+        try {
+            $conversation = $doctrine->getRepository(Conversation::class)->find($id);
+        } catch (\Throwable $th) {
             return $this->json([
                 'message' => 'Conversation not found',
             ], 400);

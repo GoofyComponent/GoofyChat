@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Conversation;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,8 @@ class MessageController extends AbstractController
         
         $data = $request->getContent();
         $data = json_decode($data, true);
-        $messageReceived = $data['message'];
+        $messageReceived = $data['content'];
         $conv_id = $data['conv_id'];
-        
         $user = $this->getUser();
 
         //find cnversation by id
@@ -43,7 +43,8 @@ class MessageController extends AbstractController
             'https://goofychat-mercure/conversation/'.$conv_id,
             json_encode([
                 'message' => $messageReceived,
-                'author' => $user,
+                'author_username' => $user->getUsername(),
+                'author_id' => $user->getId(),
             ])
         );
 
