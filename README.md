@@ -20,3 +20,10 @@ Puis dans la console symfony:
 5. `php bin/console doctrine:migrations:migrate`
 6. `php bin/console doctrine:fixtures:load`
 7. `php bin/console lexik:jwt:generate-keypair`
+
+## Après tout changement du docker
+
+:warning: **Valable aussi pour chaque repull du repo**
+
+1. `docker compose down`
+2. `docker compose up -d`
