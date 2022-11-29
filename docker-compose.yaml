@@ -1,6 +1,20 @@
 version: "3.8"
 
 services:
+  client:
+    image: "goofychat_client"
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    restart: on-failure
+    ports:
+      - "3579:80"
+    volumes:
+      - ./client:/app
+      - ./client/dist:/app/dist
+    networks:
+      - dev
+
   symfony:
     build: symfony_config
     container_name: symfony_docker
