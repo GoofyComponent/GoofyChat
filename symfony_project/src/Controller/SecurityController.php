@@ -17,12 +17,15 @@ class SecurityController extends AbstractController
     #[Route('/api/register', name: 'register', methods: ['POST'])]
     public function register(Request $request, ManagerRegistry $doctrine): Response
     {
-        $email=$request->request->get('email');
-        $password=$request->request->get('password');
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        $username=$request->request->get('username');
-        $firstname= $request->request->get('firstname');
-        $lastname= $request->request->get('lastname');
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $email=$data['email'];
+        $password= $data['password'];
+        $password=password_hash($password, PASSWORD_BCRYPT);
+        $username=$data['username'];
+        $firstname= $data['firstname'];
+        $lastname=$data['lastname'];
 
         //Check if one of the fields is empty
         if(empty($email) || empty($password) || empty($username) || empty($firstname) || empty($lastname)){

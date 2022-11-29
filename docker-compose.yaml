@@ -27,15 +27,15 @@ services:
     networks:
       - dev
 
-  maildev:
-    image: maildev/maildev
-    container_name: maildev_docker
-    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-    ports:
-      - "8081:80"
-    restart: on-failure
-    networks:
-      - dev
+  #maildev:
+  #image: maildev/maildev
+  #container_name: maildev_docker
+  #command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+  #ports:
+  #- "8081:80"
+  #restart: on-failure
+  #networks:
+  #- dev
 
   db:
     image: mariadb:10.7.1

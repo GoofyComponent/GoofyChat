@@ -1,12 +1,15 @@
+import "./assets/fonts/font.css";
+import "./assets/css/index.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import Message from "./Message/Message";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
-import "./index.css";
-import RetreiveConv from "./components/dev/RetreiveConv";
-import Send from "./components/dev/Send";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { Home } from "./pages/Home";
 import { Login } from "./components/auth/Login";
+import { Register } from "./components/auth/Register";
+
+import Send from "./components/dev/Send";
 
 const router = createBrowserRouter([
   {
@@ -14,12 +17,16 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/register",
+    element: <Register />,
+  },
+  {
     path: "/send",
     element: <Send />,
   },
   {
     path: "/",
-    element: <RetreiveConv />,
+    element: <Home />,
   },
 ]);
 

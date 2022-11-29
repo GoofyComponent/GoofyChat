@@ -1,0 +1,143 @@
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Medium.woff2") format("woff2"),
+    url("Ageo-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-ExtraBold.woff2") format("woff2"),
+    url("Ageo-ExtraBold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Heavy.woff2") format("woff2"),
+    url("Ageo-Heavy.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-HeavyItalic.woff2") format("woff2"),
+    url("Ageo-HeavyItalic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-BoldItalic.woff2") format("woff2"),
+    url("Ageo-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-LightItalic.woff2") format("woff2"),
+    url("Ageo-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Light.woff2") format("woff2"),
+    url("Ageo-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-ExtraBoldItalic.woff2") format("woff2"),
+    url("Ageo-ExtraBoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Bold.woff2") format("woff2"),
+    url("Ageo-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-ThinItalic.woff2") format("woff2"),
+    url("Ageo-ThinItalic.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Regular.woff2") format("woff2"),
+    url("Ageo-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-RegularItalic.woff2") format("woff2"),
+    url("Ageo-RegularItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-MediumItalic.woff2") format("woff2"),
+    url("Ageo-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-Thin.woff2") format("woff2"),
+    url("Ageo-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-SemiBold.woff2") format("woff2"),
+    url("Ageo-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ageo";
+  src: url("Ageo-SemiBoldItalic.woff2") format("woff2"),
+    url("Ageo-SemiBoldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
