@@ -2,7 +2,7 @@ let saveToken = async (JWT: string) => {
   await localStorage.setItem("token_JWT", JWT);
 };
 
-let logout = () => {
+let deleteToken = () => {
   localStorage.removeItem("token_JWT");
 };
 
@@ -24,7 +24,7 @@ let createMercureCookie = async (JWT: string) => {
 
 export const accountService = {
   saveToken,
-  logout,
+  deleteToken,
   islogedIn,
   getJWT,
   createMercureCookie,

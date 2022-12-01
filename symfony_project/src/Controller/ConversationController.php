@@ -77,7 +77,7 @@ class ConversationController extends AbstractController
         ], 200);
     }
 
-    #[Route('/api/conversation/{id}', name: 'app_conversation_get')]
+    #[Route('/api/conversation', name: 'app_conversation_get')]
     public function get_conversation(Request $request, ManagerRegistry $doctrine): Response
     {
 
@@ -129,7 +129,7 @@ class ConversationController extends AbstractController
         foreach ($messages as $message) {
             $messagesList[] = [
                 'content' => $message->getContent(),
-                'created_at' => $message->getCreatedAt(),
+                'created_at' => $message->getCreatedAt()->format('d/m/Y à H:i:s'),
                 'author' => $message->getAuthor()->getUsername(),
             ];
         }

@@ -42,9 +42,9 @@ class MessageController extends AbstractController
         $update = new Update(
             'https://goofychat-mercure/conversation/'.$conv_id,
             json_encode([
-                'message' => $messageReceived,
-                'author_username' => $user->getUsername(),
-                'author_id' => $user->getId(),
+                'content' => $messageReceived,
+                'author' => $user->getUsername(),
+                'created_at' => $message->getCreatedAt()->format('Y-m-d à H:i:s'),
             ])
         );
 

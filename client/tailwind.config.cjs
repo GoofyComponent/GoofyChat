@@ -13,7 +13,10 @@ module.exports = {
         secondary: "#5EA7D4",
         tertiary: "#AED3EA",
       },
+      height: {
+        minusHeader: "87vh",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("@gradin/tailwindcss-scrollbar")],
 };
