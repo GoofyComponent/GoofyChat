@@ -1,3 +1,9 @@
-old
+
+.env
+.env.*.local
+prod.decrypt.private.php
+bundles
 var
 vendor
+*.pem
+node_modules
