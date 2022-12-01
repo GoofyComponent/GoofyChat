@@ -1,40 +1,34 @@
-import { useState } from 'react'
-import './Message.css'
+import { useState } from "react";
+import "./Message.css";
+import ProfilePicture from "../ProfilePicture/ProfilePicture";
+import Chat from "../Chat/Chat";
 
+// Affichage des messages
 function Message() {
-    const [messages, setMessages] = useState([]);
-
-    function setNewMessage(msg:any) {
-        setMessages([
-          ...messages,
-          msg
-        ]);
-      }
-
-      function sendMessage(e:any) {
-        e.preventDefault();
-        const msg = {
-          username: e.target.username.value,
-          text: e.target.text.value
-        };
-        setNewMessage(msg);
-      }
+  const [Message, setMessage] = useState([]);
 
   return (
-    <div>
-      <h1>GoofyChat</h1>
+    <>
       <div>
-        <p>
-          Choisissez avec qui vous voulez discuter
-        </p>
+        <ProfilePicture />
+        {/* Input group name */}
+        <div className="head-group">
+          <h1 className="group-name">Michel, Jean-François</h1>
+        </div>
         <div>
-          {/* Mettre ici la liste des personnes avec qui on peut discuter */}
-          <div><button>Alice</button></div>
-          <div><button>Bob</button></div>
+          {/* For each message, look for who send it and sort by date */}
+          {/* Name of the user */}
+          <p className="message-received-user">Michel</p>
+          <div className="message-box-received">
+            {/* Message */}
+            <p className="message-received">Salut !</p>
+          </div>
+          {/* Date */}
+          <p className="date-received">12/12/2021</p>
         </div>
       </div>
-    </div>
-  )
+    </>
+  );
 }
 
-export default Message
+export default Message;

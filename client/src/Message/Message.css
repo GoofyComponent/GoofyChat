@@ -1,0 +1,82 @@
+.group-name {
+    font-weight: bold;
+    font-size: 40px;
+    background-color: #999;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+  }
+  
+  .head-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .date-received {
+    display: flex;
+    font-size: 0.6rem;
+    color: #999;
+    flex-direction: column;
+    margin-left: 25px;
+  }
+  
+  .date-sent {
+    display: flex;
+    font-size: 0.6rem;
+    color: #999;
+    align-items: flex-end;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  
+  .message-received {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    color: rgb(49, 49, 49);
+    font-size: 18px;
+  }
+  
+  .message-sent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 18px;
+  }
+  
+  .message-box-received {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    background-color: rgb(199, 199, 199);
+    border-radius: 8px;
+  }
+  
+  .message-box-sent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    background-color: rgb(48, 0, 138);
+    border-radius: 8px;
+  }
+  
+  .message-received-user {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    font-size: 18px;
+  }
