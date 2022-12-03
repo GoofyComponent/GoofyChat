@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import tw from "tailwind-styled-components";
 
 type ChatinputProps = {
-  setTriggerPosition: (triggerPosition: number) => void;
-  apiConfig: any;
-  convId: string | undefined;
+  setTriggerPosition?: (triggerPosition: number) => void;
+  apiConfig: any | null;
+  convId: string | undefined | null;
 };
 
 const SectionChatInput = tw.section<any>`
@@ -22,6 +23,7 @@ export const ChatInput = ({
   convId,
 }: ChatinputProps) => {
   const [messageInput, setMessageInput] = useState("");
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
 
   const apiData = {
     conv_id: convId,
@@ -32,15 +34,18 @@ export const ChatInput = ({
     if (messageInput === "") return;
     let tempMessage = messageInput;
     setMessageInput("");
+    setWaitingForResponse(true);
 
     axios
       .post("http://localhost:8245/api/message/publish", apiData, apiConfig)
       .then((res) => {
         console.log(res);
         setTriggerPosition((triggerPosition) => triggerPosition + 1);
+        setWaitingForResponse(false);
       })
       .catch((err) => {
         setMessageInput(tempMessage);
+        setWaitingForResponse(false);
         console.log(err);
       });
   };
@@ -62,7 +67,17 @@ export const ChatInput = ({
           handleSend();
         }}
       >
-        Send
+        {waitingForResponse ? (
+          <ThreeDots
+            height={10}
+            width={80}
+            color="#FFFFFF"
+            ariaLabel="registering"
+            wrapperStyle={{ display: "flex", justifyContent: "center" }}
+          />
+        ) : (
+          "Send"
+        )}
       </button>
     </SectionChatInput>
   );

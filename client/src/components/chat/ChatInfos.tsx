@@ -19,10 +19,15 @@ const SectionChatInfos = tw.section<any>`
     `;
 
 export const ChatInfos = ({ convDataInfos }: chatinfosProps) => {
+  /* const string255 = "a".repeat(255);
+  console.log(string255); */
+
   return (
     <SectionChatInfos>
       <img src="" alt="dsqd"></img>
-      <p className="my-auto">{convDataInfos.name}</p>
+      <p className="my-auto text-ellipsis w-[20rem] md:w-[40rem] overflow-hidden whitespace-nowrap">
+        {convDataInfos.name}
+      </p>
     </SectionChatInfos>
   );
 };

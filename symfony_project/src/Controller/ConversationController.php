@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Entity\User;
-
+use App\Repository\ConversationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,28 +15,49 @@ use Doctrine\Persistence\ManagerRegistry;
 class ConversationController extends AbstractController
 {
     #[Route('/api/conversation/create', name: 'app_conversation')]
-    public function create_conversation(Request $request, ManagerRegistry $doctrine): Response
+    public function create_conversation(Request $request, ManagerRegistry $doctrine, ConversationRepository $ConversationRepository): Response
     {
         $parameters = json_decode($request->getContent(), true);
-        $conv_name = $parameters['conv_name'];
-        $usersEmail = $parameters['usersEmail'];
 
-        //Check if conv_name already exists
-        $ifConvNameExist = $doctrine->getRepository(Conversation::class)->findOneBy(['name' => $conv_name]);
+        try{
+            $conv_name = $parameters['conv_name'];
+            $members = $parameters['members'];  
 
-        if ($ifConvNameExist) {
+            if($conv_name == null || $members == null || $conv_name == "" || $members == "[]"){
+                return $this->json([
+                    'status' => 'error',
+                    'message' => 'Members or conversation name is empty'
+                ],400);
+            }
+        }
+        catch(\Exception $e){
+            return $this->json([
+                'message' => 'Members or conversation name is empty',
+            ], 400);
+        }
+
+        if ($ConversationRepository->checkConvName($conv_name)) {
             return $this->json([
                 'message' => 'Conversation name already exists',
             ], 400);
         }
+
+        $doesConvExist = $ConversationRepository->conversationExists($members);
+        if($doesConvExist) {
+            return $this->json([
+                'message' => 'Conversation already exists',
+                'conv_id' => $doesConvExist,
+            ], 400);
+        }
+        
 
         $conversation = new Conversation();
         $conversation->setName($conv_name);
         $conversation->setCreatedAt(new \DateTimeImmutable());
 
         $conversation->addMember($this->getUser());
-        foreach ($usersEmail as $email) {
-            $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
+        foreach ($members as $member) {
+            $user = $doctrine->getRepository(User::class)->findOneBy(['username' => $member]);
             $conversation->addMember($user);
         }
 

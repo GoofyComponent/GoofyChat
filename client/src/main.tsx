@@ -15,6 +15,11 @@ import { Register } from "./components/auth/Register";
 import Send from "./components/dev/Send";
 import App from "./pages/App";
 import store from "./helpers/redux/store";
+import { QuatreCentQuatre } from "./pages/QuatreCentQuatre";
+import { All } from "./pages/All";
+import { ChatContainer } from "./components/chat/ChatContainer";
+import { GroupCreate } from "./components/group/GroupCreateContainer";
+import { ContactChatWaiting } from "./components/base/AppWaiting";
 
 const router = createBrowserRouter([
   {
@@ -26,20 +31,35 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/app/group/:id",
-    element: <App />,
-  },
-  {
     path: "/app",
     element: <App />,
+    children: [
+      { index: true, element: <ContactChatWaiting /> },
+      {
+        path: "/app/group/new",
+        element: <GroupCreate />,
+      },
+      {
+        path: "/app/group/:id",
+        element: <ChatContainer />,
+      },
+    ],
   },
   {
     path: "/send",
     element: <Send />,
   },
   {
+    path: "/404",
+    element: <QuatreCentQuatre />,
+  },
+  {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "*",
+    element: <All />,
   },
 ]);
 
