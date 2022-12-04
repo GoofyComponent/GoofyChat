@@ -141,6 +141,11 @@ class ConversationRepository extends ServiceEntityRepository
 
         //Sort the conversations from the most recent message to the oldest
         usort($arrayOfConv, function($a, $b) {
+
+            if($a['lastMessage']['date'] === "" || $b['lastMessage']['date'] === "") {
+                return 0;
+            }
+
             $dateAToString = $a['lastMessage']['date']->format('Y-m-d H:i:s');
             $dateBToString = $b['lastMessage']['date']->format('Y-m-d H:i:s');
             return $dateBToString <=> $dateAToString;
