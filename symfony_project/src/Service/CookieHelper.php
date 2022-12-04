@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\User;
 use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CookieHelper
 {
@@ -18,36 +20,27 @@ class CookieHelper
         $this->JWTHelper = $JWTHelper;
     }
 
-    public function createMercureCookie(User $user): string
+    public function createMercureCookie(User $user): Cookie
     {
         $jwt = $this->JWTHelper->createJWT($user);
-
-        return Cookie::create(
+        $cookie = Cookie::create(
             'mercureAuthorization',
             $jwt,
             new \DateTime("10 minutes"),
-            '/.well-known/mercure',
-            'localhost',
-            true,
+            null,
+            null,
+            null,
             true,
             false,
             Cookie::SAMESITE_STRICT
         );
+        return  $cookie;
     }
 
-/*     public function buildCookie(): string
+    public function setMercureCookie(User $user): JsonResponse
     {
-
-        return Cookie::create(
-            'mercureAuthorization',
-            $this->JWTHelper->createJWT(),
-            new \DateTime("10 minutes"),
-            '/.well-known/mercure',
-            'localhost',
-            true,
-            true,
-            false,
-            Cookie::SAMESITE_STRICT
-        );
-    } */
+        $res = new JsonResponse();
+        $res->headers->setCookie($this->createMercureCookie($user));
+        return $res;
+    }
 }

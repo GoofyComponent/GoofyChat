@@ -40,7 +40,7 @@ final class ConversationFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'name' => self::faker()->text(),
+            'name' => self::faker()->text(65),
             'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'members' => UserFactory::randomRange(3, 3)
         ];

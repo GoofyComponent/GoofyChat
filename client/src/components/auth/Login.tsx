@@ -1,18 +1,37 @@
-import { useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { accountService } from "../../helpers/authHelpers";
 import { ThreeDots } from "react-loader-spinner";
+import { useSelector, useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
+
 import GCLogo from "../../assets/img/goofychat.png";
+import {
+  resetUser,
+  setJWT_API,
+  setJWT_Mercure,
+  setMercureListener,
+  setUserInfos,
+} from "../../helpers/redux/slices/UserSlice";
+import { setAllConv } from "../../helpers/redux/slices/MessagesSlice";
+import { appHelpers } from "../../helpers/appHelpers";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const APIJWT = useSelector((state: any) => state.user.JWT_API);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (APIJWT !== null) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,15 +51,43 @@ export const Login = () => {
       )
       .then((res) => {
         const JWT = res.data.token;
-        accountService.saveToken(JWT);
-        console.log("Local storage: " + localStorage.getItem("token_JWT"));
-        setWaiting(false);
-        return navigate("/");
+        dispatch(setJWT_API(JWT));
+        dispatch(setUserInfos(jwt_decode(JWT)));
+        return JWT;
       })
       .catch((err) => {
         setWaiting(false);
         setError(err.response.data.message);
         console.log(err);
+      })
+      .then((JWT) => {
+        axios
+          .post(
+            "http://localhost:8245/api/mercureLogin",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${JWT}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            dispatch(setJWT_Mercure(res.data.mercurePersonalJWT));
+            appHelpers.deleteMercureCookie();
+            appHelpers.createMercureCookie(res.data.mercurePersonalJWT);
+            let decodedJWT: any = jwt_decode(res.data.mercurePersonalJWT);
+            dispatch(setMercureListener(decodedJWT.mercure.subscribe[0]));
+          })
+          .catch((err) => {
+            console.log(err);
+            setWaiting(false);
+            setError(err.response.data.message);
+          })
+          .then(() => {
+            setWaiting(false);
+            return navigate("/app");
+          });
       });
   };
 

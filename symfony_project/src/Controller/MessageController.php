@@ -24,10 +24,26 @@ class MessageController extends AbstractController
         $data = json_decode($data, true);
         $messageReceived = $data['content'];
         $conv_id = $data['conv_id'];
+
+
         $user = $this->getUser();
 
-        //find cnversation by id
+
         $conversation = $doctrine->getRepository(Conversation::class)->find($conv_id);
+
+        if (!$conversation) {
+            return $this->json([
+                'message' => 'Conversation not found',
+            ], 400);
+        }
+
+        //check if user is in conversation
+        if (!$conversation->getMembers()->contains($user)) {
+            return $this->json([
+                'message' => 'You are not in this conversation',
+            ], 400);
+        }
+
 
         $message = new Message();
         $message->setCreatedAt(new \DateTimeImmutable());
@@ -39,16 +55,27 @@ class MessageController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
-        $update = new Update(
-            'https://goofychat-mercure/conversation/'.$conv_id,
-            json_encode([
-                'message' => $messageReceived,
-                'author_username' => $user->getUsername(),
-                'author_id' => $user->getId(),
-            ])
-        );
 
-        $hub->publish($update);
+        $members = $conversation->getMembers();
+
+        foreach ($members as $member) {
+
+            $dateUTC = new \DateTime('now', new \DateTimeZone('UTC'));
+            $dateUTC->setTimezone(new \DateTimeZone('Europe/Paris'));
+
+            
+            $update = new Update(
+                ["https://goofychat-mercure/personnal/". $member->getUsername()],
+                json_encode([
+                    'id' => $conv_id,
+                    'content' => $messageReceived,
+                    'author' => $user->getUsername(),
+                    'created_at' => $dateUTC,
+                ]),
+                true
+            );
+            $hub->publish($update);
+        }
 
         return $this->json([
             'message' => 'Message published',

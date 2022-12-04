@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { accountService } from "../../helpers/authHelpers";
+import { appHelpers } from "../../helpers/appHelpers";
 import { redirect } from "react-router-dom";
 
 const CreateConv = () => {
@@ -16,7 +16,7 @@ const CreateConv = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${accountService.getJWT()}`,
+            Authorization: `Bearer ${appHelpers.getJWT()}`,
           },
         }
       )
@@ -40,7 +40,7 @@ const CreateConv = () => {
 const RetreiveConv = () => {
   const config2 = {
     headers: {
-      Authorization: `Bearer ${accountService.getJWT()}`,
+      Authorization: `Bearer ${appHelpers.getJWT()}`,
     },
   };
 
@@ -65,7 +65,7 @@ const PostList = () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${accountService.getJWT()}`,
+      Authorization: `Bearer ${appHelpers.getJWT()}`,
     },
   };
 
@@ -108,7 +108,7 @@ const PostList = () => {
 const SubscribeConv = () => {
   const config = {
     headers: {
-      Authorization: `Bearer ${accountService.getJWT()}`,
+      Authorization: `Bearer ${appHelpers.getJWT()}`,
     },
   };
 
@@ -118,7 +118,7 @@ const SubscribeConv = () => {
       .then((res) => {
         console.log(res);
         //set the mercureCookie
-        accountService.createMercureCookie(res.data.mercurePersonalJWT);
+        appHelpers.createMercureCookie(res.data.mercurePersonalJWT);
       })
       .catch((err) => {
         console.log(err);

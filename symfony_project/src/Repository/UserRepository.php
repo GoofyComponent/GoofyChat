@@ -80,6 +80,42 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     
         return $cleanRes;
     }
+
+    /**
+     * @return User[] Returns an array of User objects
+     * Made to find all the users matching the search
+     */
+    public function findUsersBySearch(string $search): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        //Search in username, lastname , firstname and email
+        $sql = '
+            SELECT * 
+            FROM `user` 
+            WHERE `username` LIKE :search
+            OR `lastname` LIKE :search
+            OR `firstname` LIKE :search
+            OR `email` LIKE :search;
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resNotClean = $stmt->executeQuery(['search' => '%'.$search.'%'])->fetchAllAssociative();
+
+        $cleanRes = [];
+        foreach ($resNotClean as $res) {
+            $cleanRes[] = [
+                'id' => $res['id'],
+                'username' => $res['username'],
+                'firstname' => $res['firstname'],
+                'lastname' => $res['lastname'],
+            ];
+        }
+    
+        return $cleanRes;
+    }
+
+
      
 
 //    /**
