@@ -6,6 +6,9 @@ use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
+use App\Repository\UserRepository;
+use App\Service\JWTHelper;
+use App\Service\CookieHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +17,14 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ConversationController extends AbstractController
 {
+
+    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository, JWTHelper $jwtHelper, CookieHelper $cookieHelper)
+    {
+        $this->jwtHelper = $jwtHelper;
+        $this->cookieHelper = $cookieHelper;
+    }
+
+    
     #[Route('/api/conversation/create', name: 'app_conversation')]
     public function create_conversation(Request $request, ManagerRegistry $doctrine, ConversationRepository $ConversationRepository): Response
     {
@@ -148,17 +159,30 @@ class ConversationController extends AbstractController
         $messages = $doctrine->getRepository(Message::class)->findBy(['conversation' => $conversation]);
         $messagesList = [];
         foreach ($messages as $message) {
+
+            $dateTimeImmutableToString = $message->getCreatedAt()->format('Y-m-d H:i:s');
+
+            $dateUTC = new \DateTime($dateTimeImmutableToString, new \DateTimeZone('UTC'));
+            $dateUTC->setTimezone(new \DateTimeZone('Europe/Paris'));
+
             $messagesList[] = [
+                'id' => $conversation->getId(),
                 'content' => $message->getContent(),
-                'created_at' => $message->getCreatedAt()->format('d/m/Y à H:i:s'),
+                'created_at' => $dateUTC,
                 'author' => $message->getAuthor()->getUsername(),
             ];
         }
 
-        return $this->json([
+        $cookie = $this->cookieHelper->createMercureCookie($user);
+
+        $rep = new Response();
+        //$rep->headers->setCookie($cookie);
+        $json = $this->json([
             "conversationData"=>$conversationData,
             "membersList"=>$membersList,
             "messagesList"=>$messagesList,
         ], 200);
+        $rep->setContent($json->getContent());
+        return $rep;
     }
 }

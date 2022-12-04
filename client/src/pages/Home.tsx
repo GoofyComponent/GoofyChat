@@ -6,7 +6,7 @@ import { setJWT_API } from "../helpers/redux/slices/UserSlice";
 
 import { Header } from "../components/base/Header";
 import { Landing } from "../components/base/Landing";
-import { accountService } from "../helpers/authHelpers";
+import { appHelpers } from "../helpers/appHelpers";
 
 export const Home = () => {
   const navigate = useNavigate();

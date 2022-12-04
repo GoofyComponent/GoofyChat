@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { appHelpers } from "../../helpers/appHelpers";
 
 type MessageProps = {
   message: string;
@@ -27,7 +28,7 @@ export const Message = ({ message, author, date }: MessageProps) => {
     <DivMessage>
       <p className="break-words w-full font-semibold">{message}</p>
       <div className="flex justify-between">
-        <p className="italic text-sm">{date}</p>
+        <p className="italic text-sm">{appHelpers.dateTimeToTime(date)}</p>
         <p className="font-bold text-sm">{author}</p>
       </div>
     </DivMessage>

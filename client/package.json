@@ -21,7 +21,8 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "redux-persist": "^6.0.0",
-    "tailwind-styled-components": "^2.2.0"
+    "tailwind-styled-components": "^2.2.0",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/autosize": "^4.0.1",

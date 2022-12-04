@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Conversation;
 use App\Entity\User;
+use App\Repository\ConversationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,6 +38,23 @@ class UserController extends AbstractController
 
         return $this->json([
             'contacts' => $contacts,
+        ], 200);
+    }
+
+    #[Route('/api/user/all-convs', name: 'user_conversation', methods: ['POST'])]
+    public function allConversation(ConversationRepository $ConversationRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'You need to be logged in to access this resource',
+            ]);
+        }
+
+        return $this->json([
+            'conversationList' => $ConversationRepository->getConversations($user),
         ], 200);
     }
 }

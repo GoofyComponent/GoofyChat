@@ -4,12 +4,13 @@ export const UserSlice = createSlice({
   name: "user",
   initialState: {
     JWT_API: null,
-    Cookie_MERCURE: null,
+    JWT_Mercure: null,
     username: null,
     email: null,
     lastname: null,
     firstname: null,
     id: null,
+    mercureListener: null,
   },
   reducers: {
     setUserInfos: (state, action) => {
@@ -22,8 +23,8 @@ export const UserSlice = createSlice({
     setJWT_API: (state, action) => {
       state.JWT_API = action.payload;
     },
-    setCookie_MERCURE: (state, action) => {
-      state.Cookie_MERCURE = action.payload;
+    setJWT_Mercure: (state, action) => {
+      state.JWT_Mercure = action.payload;
     },
     setUsername: (state, action) => {
       state.username = action.payload;
@@ -40,18 +41,43 @@ export const UserSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+    setMercureListener: (state, action) => {
+      state.mercureListener = action.payload;
+    },
+    resetUser: (state) => {
+      state.JWT_API = null;
+      state.JWT_Mercure = null;
+      state.username = null;
+      state.email = null;
+      state.lastname = null;
+      state.firstname = null;
+      state.id = null;
+    },
+    eraseAllUser: (state) => {
+      state.JWT_API = null;
+      state.JWT_Mercure = null;
+      state.username = null;
+      state.email = null;
+      state.lastname = null;
+      state.firstname = null;
+      state.id = null;
+      state.mercureListener = null;
+    },
   },
 });
 
 export const {
   setUserInfos,
   setJWT_API,
-  setCookie_MERCURE,
+  setJWT_Mercure,
   setUsername,
   setEmail,
   setLastname,
   setFirstname,
   setId,
+  setMercureListener,
+  resetUser,
+  eraseAllUser,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

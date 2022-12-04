@@ -6,7 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 
 import GCLogo from "../../assets/img/goofychat.png";
-import { setJWT_API, setUserInfos } from "../../helpers/redux/slices/UserSlice";
+import {
+  resetUser,
+  setJWT_API,
+  setJWT_Mercure,
+  setMercureListener,
+  setUserInfos,
+} from "../../helpers/redux/slices/UserSlice";
+import { setAllConv } from "../../helpers/redux/slices/MessagesSlice";
+import { appHelpers } from "../../helpers/appHelpers";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -45,13 +53,41 @@ export const Login = () => {
         const JWT = res.data.token;
         dispatch(setJWT_API(JWT));
         dispatch(setUserInfos(jwt_decode(JWT)));
-        setWaiting(false);
-        return navigate("/app");
+        return JWT;
       })
       .catch((err) => {
         setWaiting(false);
         setError(err.response.data.message);
         console.log(err);
+      })
+      .then((JWT) => {
+        axios
+          .post(
+            "http://localhost:8245/api/mercureLogin",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${JWT}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            dispatch(setJWT_Mercure(res.data.mercurePersonalJWT));
+            appHelpers.deleteMercureCookie();
+            appHelpers.createMercureCookie(res.data.mercurePersonalJWT);
+            let decodedJWT: any = jwt_decode(res.data.mercurePersonalJWT);
+            dispatch(setMercureListener(decodedJWT.mercure.subscribe[0]));
+          })
+          .catch((err) => {
+            console.log(err);
+            setWaiting(false);
+            setError(err.response.data.message);
+          })
+          .then(() => {
+            setWaiting(false);
+            return navigate("/app");
+          });
       });
   };
 

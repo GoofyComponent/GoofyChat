@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\ConversationRepository;
 use App\Service\JWTHelper;
 use App\Repository\UserRepository;
+use App\Service\CookieHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityController extends AbstractController
 {
@@ -43,6 +46,13 @@ class SecurityController extends AbstractController
             ], 400);
         }
 
+        //Check if username contains special characters or spaces or blank spaces
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $username)) {
+            return $this->json([
+                'message' => 'Username contains special characters or spaces or blank spaces',
+            ], 400);
+        }
+
         //check if username already exists
         $ifUsernameExist = $doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
 
@@ -70,14 +80,31 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/api/mercureLogin', name: 'mercureLogin', methods: ['POST'])]
-    public function mercureLogin(JWTHelper $JWTHelper, UserRepository $UserRepository): Response
+    public function mercureLogin(JWTHelper $JWTHelper,CookieHelper $cookieHelper, ConversationRepository $ConversationRepository): Response
     {
         $user = $this->getUser();
 
-        return $this->json([
-            'status'=>'success',
-            "mercurePersonalJWT"=>$JWTHelper->createJWT($user, $UserRepository),
+        if (!$user) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'You need to be logged in to access this resource',
+            ]);
+        }
+
+        $cookie = $cookieHelper->createMercureCookie($user);
+        $mercureJWT = $JWTHelper->createJWT($user);
+
+        $response = new Response();
+        //$response->headers->setCookie($cookie);
+        $json = json_encode([
+            'status' => 'success',
+            'mercureAuthorization' => $cookie->getValue(),
+            'mercurePersonalJWT' => $mercureJWT,
         ]);
+        $response->setContent($json);
+        
+        return $response;
+
     }
 
     #[Route('/api/logout', name: 'logout')]

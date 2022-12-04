@@ -4,7 +4,7 @@ import { ListOfContactSkeleton } from "../../contact/skeleton/ListOfContactSkele
 
 export const SearchedContactSkeleton = () => {
   return (
-    <section className="h-[30vh]">
+    <section className="h-[50vh] md:h-[30vh]">
       <h2 className="font-bold text-xl text-primary">Contacts found :</h2>
       <ListOfContactSkeleton />
     </section>

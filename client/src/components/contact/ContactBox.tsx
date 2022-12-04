@@ -24,8 +24,9 @@ export const ContactBox = ({
   const submitSearch = () => {
     if (waitingResults) return;
 
+    setResultsSearch(null);
+
     if (inputSearch === "") {
-      setResultsSearch(null);
       return;
     }
 
@@ -38,7 +39,7 @@ export const ContactBox = ({
         config
       )
       .then((res) => {
-        console.log(res.data);
+        console.log("reponse de l'appel de recherche d'un contact", res.data);
         setResultsSearch(res.data.results);
         setWaitingResults(false);
       })
@@ -49,9 +50,9 @@ export const ContactBox = ({
   };
 
   return (
-    <div className="w-1/2 px-4">
+    <div className="md:w-1/2 px-4">
       <h1 className="text-4xl text-primary font-bold">Contacts list</h1>
-      <div>
+      <div className="flex justify-between">
         <input
           type="text"
           className="w-9/12 h-10 bg-white rounded-xl my-2 p-4 mx-2"
@@ -60,7 +61,7 @@ export const ContactBox = ({
           value={inputSearch}
         />
         <button
-          className="w-2/12 h-10 px-4 py-2 rounded-2xl bg-tertiary text-tertiary font-bold hover:bg-secondary transition-all mt-auto"
+          className="h-10 px-4 py-2 rounded-2xl bg-tertiary text-tertiary font-bold hover:bg-secondary transition-all my-auto"
           onClick={(e) => {
             e.preventDefault();
             submitSearch();

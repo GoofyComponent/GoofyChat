@@ -3,7 +3,7 @@ import { ListOfContactSkeleton } from "../../contact/skeleton/ListOfContactSkele
 
 export const CreateBoxSkeleton = () => {
   return (
-    <div className="w-1/2 px-4">
+    <div className="md:w-1/2 px-4">
       <h1 className="text-4xl text-primary font-bold">Create a group</h1>
       <div>
         <h1 className="text-3xl text-primary font-bold">Group name</h1>

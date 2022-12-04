@@ -17,9 +17,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ConversationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, MessageRepository $messageRepository)
     {
         parent::__construct($registry, Conversation::class);
+        $this->messageRepository = $messageRepository;
     }
 
     public function save(Conversation $entity, bool $flush = false): void
@@ -99,6 +100,53 @@ class ConversationRepository extends ServiceEntityRepository
         }
 
         return $isExisting;
+    }
+
+    /**
+     * @return array Return an array of conversations
+     * @param User $user
+     * Return all the conversations of a user
+     */
+    public function getConversations(User $user): array
+    {
+        $username = $user->getUsername();
+        $conversations = $user->getConversations();
+
+        $arrayOfConv = [];
+        foreach ($conversations as $conversation) {
+
+            $members = $conversation->getMembers();
+            $memberClean = [];
+            foreach ($members as $member) {
+                if ($member->getUsername() !== $username) {
+                    $memberClean[] = $member->getUsername();
+                }
+            }
+
+            //Get the last message of the conversation
+            $lastMessageData = $this->messageRepository->getLastMessage($conversation->getId());
+            $lastMessage = [
+                'content' => $lastMessageData['message'],
+                'date' => $lastMessageData['date'],
+                'author' => $lastMessageData['author'],
+            ];
+
+            $arrayOfConv[] = [
+                'id' => $conversation->getId(),
+                'name' => $conversation->getName(),
+                'members' => $memberClean,
+                'lastMessage' => $lastMessage
+            ];
+        }
+
+        //Sort the conversations from the most recent message to the oldest
+        usort($arrayOfConv, function($a, $b) {
+            $dateAToString = $a['lastMessage']['date']->format('Y-m-d H:i:s');
+            $dateBToString = $b['lastMessage']['date']->format('Y-m-d H:i:s');
+            return $dateBToString <=> $dateAToString;
+        });
+
+        return $arrayOfConv;
     }
 
 //    /**

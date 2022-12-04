@@ -19,9 +19,6 @@ const SectionChatInfos = tw.section<any>`
     `;
 
 export const ChatInfos = ({ convDataInfos }: chatinfosProps) => {
-  /* const string255 = "a".repeat(255);
-  console.log(string255); */
-
   return (
     <SectionChatInfos>
       <img src="" alt="dsqd"></img>

@@ -13,7 +13,7 @@ export const SearchedContact = ({
   setMembers,
 }: searchedContactsProps) => {
   return (
-    <section className="h-[30vh]">
+    <section className="h-[50vh] md:h-[30vh]">
       <h2 className="font-bold text-xl text-primary">Contacts found :</h2>
       {resultsSearch === null && !waitingResults && (
         <h2 className="flex justify-center m-auto font-bold text-xl text-secondary text-center">
@@ -26,7 +26,7 @@ export const SearchedContact = ({
         </h2>
       )}
       {waitingResults && <ListOfContactSkeleton />}
-      <div className="flex flex-col w-full h-[28vh] overflow-y-auto">
+      <div className="flex flex-col w-full h-[40vh] md:h-[28vh] overflow-y-auto">
         {resultsSearch &&
           resultsSearch.map((contact: any) => (
             <ContactDetails

@@ -1,8 +1,46 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { persistStore } from "redux-persist";
+
+import { eraseMessagesSlice } from "../../helpers/redux/slices/MessagesSlice";
+import { eraseAllUser } from "../../helpers/redux/slices/UserSlice";
+import { appHelpers } from "../../helpers/appHelpers";
+
 import GCLogo from "../../assets/img/goofychat.png";
+import store from "../../helpers/redux/store";
+
+const Name = (username: string) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  return (
+    <div className="flex items-center">
+      <p className="text-secondary text-xl font-bold mx-2">
+        Hello, {username} !
+      </p>
+      <button
+        className="w-20 h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
+        onClick={(e) => {
+          e.preventDefault();
+          appHelpers.deleteMercureCookie();
+          dispatch(eraseAllUser());
+          dispatch(eraseMessagesSlice());
+          persistStore(store).purge();
+          navigate("/");
+          location.reload();
+        }}
+      >
+        logout
+      </button>
+    </div>
+  );
+};
 
 export const Header = () => {
+  const username = useSelector((state: any) => state.user.username);
+
   return (
-    <header className="bg-primary flex items-center justify-between p-4 bg-primary">
+    <header className="bg-primary flex items-center justify-between p-4">
       <div className="flex items-center">
         <img src={GCLogo} alt="logo" className="object-contain w-2/12 mx-2" />
         <h1 className="text-4xl font-bold mx-2">
@@ -10,12 +48,15 @@ export const Header = () => {
           <span className="text-secondary">Chat</span>
         </h1>
       </div>
-
-      {/* <div className="header__right flex items-center">
-        <button className="header__button bg-tertiary text-tertiary font-bold py-2 px-4 rounded text-2xl hover:bg-secondary transition-all">
-          Login
-        </button>
-      </div> */}
+      {
+        username && Name(username) /* : (
+        <Skeleton
+          className="flex items-center !w-96 h-10"
+          baseColor="#192124"
+          highlightColor="#3B4D54"
+        />
+      ) */
+      }
     </header>
   );
 };

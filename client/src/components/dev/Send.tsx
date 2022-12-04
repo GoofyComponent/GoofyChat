@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import axios from "axios";
-import { accountService } from "../../helpers/authHelpers";
+import { appHelpers } from "../../helpers/appHelpers";
 
 const Send = () => {
   const [message, setMessage] = useState("");
 
   const config = {
     headers: {
-      Authorization: `Bearer ${accountService.getJWT()}`,
+      Authorization: `Bearer ${appHelpers.getJWT()}`,
     },
   };
 

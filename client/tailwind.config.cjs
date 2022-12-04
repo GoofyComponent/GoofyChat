@@ -18,5 +18,23 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@gradin/tailwindcss-scrollbar")],
+  plugins: [
+    require("@gradin/tailwindcss-scrollbar")({
+      size: "10px",
+      track: {
+        background: "transparent", // default '#f1f1f1'
+        // add any css attributes here, will be merged to ::-webkit-scrollbar-track
+      },
+      thumb: {
+        background: "#AED3EA", // default '#c1c1c1'
+        borderRadius: "40px",
+        // add any css attributes here, will be merged to ::-webkit-scrollbar-thumb
+      },
+      hover: {
+        background: "#5EA7D4", // default '#a8a8a8'
+        borderRadius: "40px",
+        // add any css attributes here, will be merged to ::-webkit-scrollbar-thumb:hover
+      },
+    }),
+  ],
 };

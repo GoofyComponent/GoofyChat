@@ -5,42 +5,43 @@ namespace App\Service;
 use App\Entity\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use App\Repository\UserRepository;
+// security.token_storage
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class JWTHelper
 {
     private string $mercureSecret;
 
-    public function __construct(string $mercureSecret)
+    public function __construct(string $mercureSecret, TokenStorageInterface $tokenStorage)
     {
         $this->mercureSecret = $mercureSecret;
+        $this->tokenStorage = $tokenStorage;
     }
 
-    public function createJWT(User $user, UserRepository $UserRepository): string
+    public function createJWT(User $user): string
     {
 
-        //Get the list of the conversation the user is in
-        $convs = $UserRepository->findConversationsByUser($user);
+        $username = $user->getUsername();
 
         $subscribe=[];
-        $publish=[];
-        foreach ($convs as $conv) {
-            //$subscribe[] = "https://example.com/user/{$user->getId()}/{?topic}";
-            $subscribe[] = "https://goofychat-mercure/conversation/{$conv}";
-            $publish[] = "https://goofychat-mercure/conversation/{$conv}";
-        }
+        //$publish=[];
         
+        //$subscribe[] = "https://example.com/user/{$user->getId()}/{?topic}";
+        $subscribe[] = "https://goofychat-mercure/personnal/{$username}";
+        //$publish[] = "https://goofychat-mercure/personnal/{$username}";
+  
 
         $payload = ["mercure" => [
             "subscribe" => $subscribe,
-            "publish" => $publish,
+            //"publish" => $publish,
             "payload" => [
                 "email" => $user->getEmail(),
                 "userid" => $user->getId()
             ]
         ]];
 
-        return JWT::encode($payload, $this->mercureSecret, 'HS256');
+        $jwt = JWT::encode($payload, $this->mercureSecret, 'HS256');
+        return $jwt;
     }
 
     public function isJwtValid(string $jwt): bool

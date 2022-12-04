@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
 
 type ContactDetailsProps = {
@@ -13,6 +14,8 @@ export const ContactDetails = ({
   contactFullName,
   setMembers,
 }: ContactDetailsProps) => {
+  const loggedUsername = useSelector((state: any) => state.user.username);
+
   const [isPressed, setIsPressed] = useState(false);
 
   const Contact = tw.div<any>`
@@ -42,6 +45,10 @@ export const ContactDetails = ({
     });
   };
 
+  if (loggedUsername === contactUsername) {
+    return null;
+  }
+
   return (
     <Contact
       onClick={() =>
@@ -56,7 +63,7 @@ export const ContactDetails = ({
       }
     >
       <div className="flex flex-row w-full h-full ">
-        <div className="flex flex-col w-1/12 h-full justify-center items-center">
+        <div className="flex flex-col w-1/12 h-full justify-center items-center mx-4">
           <div className="w-8 h-8 rounded-full bg-[#5EA7D4]"></div>
         </div>
         <div className="flex flex-col w-11/12 h-full justify-center items-start">

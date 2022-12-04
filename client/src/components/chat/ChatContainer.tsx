@@ -1,17 +1,24 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ChatInfos } from "./ChatInfos";
 import { ChatInput } from "./ChatInput";
 import { Message } from "./Message";
 import { ChatContainerSkeleton } from "./skeletons/ChatContainerSkeleton";
+import {
+  resetCurrConv,
+  resetTriggerPosition,
+  setCurrConvData,
+  setCurrConvMsgs,
+  triggerPosition,
+} from "../../helpers/redux/slices/MessagesSlice";
 
 export const ChatContainer = () => {
-  const dev = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const dispatch = useDispatch();
+
   const messageContainerRef = useRef<HTMLDivElement>(null);
-  const [triggerPosition, setTriggerPosition] = useState(0);
 
   const navigate = useNavigate();
 
@@ -22,34 +29,19 @@ export const ChatContainer = () => {
     },
   };
 
-  const [convData, setConvData] = useState<any>(false);
-  const [messages, setMessages] = useState<any>(false);
+  const convData = useSelector((state: any) => state.messages.currConvData);
+  const messages = useSelector((state: any) => state.messages.currConvMsgs);
+  const trigger = useSelector((state: any) => state.messages.triggerPosition);
 
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
-    const topic = `https://goofychat-mercure/conversation/${id}`;
-    urlEventSource.searchParams.append("topic", topic);
+    dispatch(resetCurrConv());
+    dispatch(resetTriggerPosition());
 
-    const eventSource = new EventSource(urlEventSource.toString(), {
-      withCredentials: true,
-    });
-
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("onmessage", data);
-
-      if (data !== null) {
-        setMessages((messages: any) => [...messages, data]);
-        setTriggerPosition((triggerPosition) => triggerPosition + 1);
-      }
-    };
-
-    eventSource.onerror = (event) => {
-      console.log("onerror", event);
-      location.reload();
-    };
+    if (APIJWT === null) {
+      return navigate("/login");
+    }
 
     axios
       .post(
@@ -60,25 +52,23 @@ export const ChatContainer = () => {
         config
       )
       .then((res) => {
-        console.log(res.data);
-        setConvData(res.data);
-        setMessages(res.data.messagesList);
-        setTriggerPosition((triggerPosition) => triggerPosition + 1);
+        console.log("appel api pour recup les anciens messages", res.data);
+        dispatch(setCurrConvData(res.data));
+        dispatch(setCurrConvMsgs(res.data.messagesList));
+        dispatch(triggerPosition());
+        /* setTriggerPosition((triggerPosition) => triggerPosition + 1); */
       })
       .catch((err) => {
         navigate("/404");
       });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight;
     }
-  }, [triggerPosition]);
-
-  console.log("messages", messages);
-  console.log("convData", convData);
+  }, [trigger]);
 
   if (!convData || !messages) {
     return <ChatContainerSkeleton />;
@@ -92,6 +82,8 @@ export const ChatContainer = () => {
         ref={messageContainerRef}
       >
         {messages.map((item: any) => {
+          console.log(item);
+          if (item.id != id) return;
           return (
             <Message
               message={item.content}
@@ -102,11 +94,7 @@ export const ChatContainer = () => {
           );
         })}
       </div>
-      <ChatInput
-        setTriggerPosition={setTriggerPosition}
-        apiConfig={config}
-        convId={id}
-      />
+      <ChatInput apiConfig={config} convId={id} />
     </div>
   );
 };

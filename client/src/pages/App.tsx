@@ -1,59 +1,83 @@
-import axios from "axios";
 import { useEffect } from "react";
-import { useMatches, useNavigate, useMatch, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Header } from "../components/base/Header";
-import { ChatContainer } from "../components/chat/ChatContainer";
-import { accountService } from "../helpers/authHelpers";
-import { setJWT_API } from "../helpers/redux/slices/UserSlice";
-import { ContactChatWaiting } from "../components/base/AppWaiting";
-import { GroupCreate } from "../components/group/GroupCreateContainer";
+import { ConversationList } from "../components/group/list/ConversationList";
+
+import {
+  triggerPosition,
+  updateConvMessage,
+  updateCurrConvMsgs,
+} from "../helpers/redux/slices/MessagesSlice";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  /* const { id } = useParams<{ id: string }>(); */
+
   const APIJWT = useSelector((state: any) => state.user.JWT_API);
+  const mercureListener = useSelector(
+    (state: any) => state.user.mercureListener
+  );
+  const mercureJWT = useSelector((state: any) => state.user.JWT_Mercure);
 
   useEffect(() => {
     if (APIJWT === null) {
       navigate("/login");
     }
 
-    if (document.cookie.indexOf("mercureAuthorization") === -1) return;
+    //if (document.cookie.indexOf("mercureAuthorization") === -1) return;
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${APIJWT}`,
-      },
+    const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
+    urlEventSource.searchParams.append("topic", mercureListener);
+
+    /* const eventSource = new EventSource(urlEventSource.toString(), {
+      headers: { Authorization: `Bearer ${mercureJWT}` },
+    }); */
+
+    const eventSource = new EventSource(
+      urlEventSource,
+      //Add the JWT to the Authorization header of the request
+      {
+        withCredentials: true,
+      }
+    );
+
+    eventSource.onmessage = (event) => {
+      let data = JSON.parse(event.data);
+      console.log("onmessage", data);
+
+      data = {
+        ...data,
+        created_at: new Date(data.created_at.date).toString(),
+      };
+
+      //console.log(data.id === id, data.id, id, "data.id === id");
+
+      if (data !== null) {
+        dispatch(updateConvMessage(data));
+        dispatch(updateCurrConvMsgs(data));
+        dispatch(triggerPosition());
+      }
     };
 
-    axios
-      .post("http://localhost:8245/api/mercureLogin", {}, config)
-      .then((res) => {
-        //console.log(res.data);
-        accountService.createMercureCookie(res.data.mercurePersonalJWT);
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(setJWT_API(null));
-        return navigate("/login");
-      });
-  }, []);
+    eventSource.onerror = (event) => {
+      console.log("onerror", event);
+    };
 
-  const chooseRoute = () => {
-    if (useMatch("/app/group/new")) return <GroupCreate />;
-    if (useMatch("/app/group/:id")) return <ChatContainer />;
-    if (useMatch("/app")) return <ContactChatWaiting />;
-  };
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   return (
     <>
       <Header />
-      {/* Contact block */}
       <div className="flex justify-start my-auto">
-        <div className="w-1/6 bg-red-200 h-minusHeader hidden md:block"></div>
-        {/* {chooseRoute()} */}
+        {/* Contact block */}
+        <ConversationList />
+        {/* End Contact block */}
         <Outlet />
       </div>
     </>

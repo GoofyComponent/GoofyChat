@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ContactDetails } from "../contact/ContactDetails";
+import { setTriggerRefreshConv } from "../../../helpers/redux/slices/MessagesSlice";
+import { ContactDetails } from "../../contact/ContactDetails";
 
 type CreateBoxProps = {
   members: Array<any>;
@@ -11,6 +12,7 @@ type CreateBoxProps = {
 
 export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const APIJWT = useSelector((state: any) => state.user.JWT_API);
   const userOwnUsername = useSelector((state: any) => state.user.username);
@@ -43,7 +45,8 @@ export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
         config
       )
       .then((res) => {
-        console.log(res.data);
+        console.log("reponse de lappel de creation de conv", res.data);
+        dispatch(setTriggerRefreshConv());
         navigate(`/app/group/${res.data.conv_id}`);
       })
       .catch((err) => {
@@ -53,7 +56,7 @@ export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
   };
 
   return (
-    <div className="w-1/2 px-4">
+    <div className="md:w-1/2 px-4">
       <h1 className="text-4xl text-primary font-bold">Create a group</h1>
       <div>
         <h1 className="text-3xl text-primary font-bold">Group name</h1>
@@ -77,7 +80,7 @@ export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
         <div className="flex flex-col w-full h-[35vh] overflow-y-auto">
           {members.length === 0 && (
             <h3 className="flex justify-center m-auto font-bold text-xl text-secondary text-center">
-              Choose members on the left side
+              Choose members by clicking on their username
             </h3>
           )}
           {members.length > 0 && (
@@ -104,19 +107,21 @@ export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
         )}
         <Link
           to={"/app"}
-          className="w-2/12 h-10 px-4 py-2 mx-2 rounded-2xl text-center bg-primary text-primary font-bold hover:bg-secondary hover:text-tertiary transition-all mt-auto"
+          className="h-10 px-4 py-2 mx-2 rounded-2xl text-center bg-primary text-primary font-bold hover:bg-secondary hover:text-tertiary transition-all mt-auto"
         >
           cancel
         </Link>
-        <button
-          className="w-2/12 h-10 px-4 py-2 mx-2 rounded-2xl  text-center bg-tertiary text-tertiary font-bold hover:bg-secondary transition-all mt-auto"
-          onClick={(e) => {
-            e.preventDefault();
-            handleSubmit(e);
-          }}
-        >
-          create
-        </button>
+        {convName.length > 0 && members.length > 0 && (
+          <button
+            className="h-10 px-4 py-2 mx-2 rounded-2xl  text-center bg-tertiary text-tertiary font-bold hover:bg-secondary transition-all mt-auto"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubmit(e);
+            }}
+          >
+            create
+          </button>
+        )}
       </div>
     </div>
   );

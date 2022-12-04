@@ -1,4 +1,4 @@
-import { ContactDetails } from "../contact/ContactDetails";
+import { ContactDetails } from "./ContactDetails";
 
 type LastContactsProps = {
   lastContacts: any;
@@ -10,11 +10,11 @@ export const LastContacts = ({
   setMembers,
 }: LastContactsProps) => {
   return (
-    <section className="h-[30vh]">
+    <section className="h-[50vh] md:h-[30vh]">
       <h2 className="font-bold text-xl text-primary">
         Your previous contacts :
       </h2>
-      <div className="flex flex-col w-full h-[28vh] overflow-y-auto">
+      <div className="flex flex-col w-full h-[45vh] md:h-[28vh] overflow-y-auto">
         {lastContacts &&
           lastContacts.map((contact: any) => (
             <ContactDetails

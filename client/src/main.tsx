@@ -18,7 +18,7 @@ import store from "./helpers/redux/store";
 import { QuatreCentQuatre } from "./pages/QuatreCentQuatre";
 import { All } from "./pages/All";
 import { ChatContainer } from "./components/chat/ChatContainer";
-import { GroupCreate } from "./components/group/GroupCreateContainer";
+import { GroupCreate } from "./components/group/create/GroupCreateContainer";
 import { ContactChatWaiting } from "./components/base/AppWaiting";
 
 const router = createBrowserRouter([
