@@ -78,6 +78,8 @@ services:
         cors_origins "http://127.0.0.1:8245"
         cors_origins "http://localhost:9090"
         cors_origins "http://127.0.0.1:9090"
+        cors_origins "http://127.0.0.1:3579"
+        cors_origins "http://localhost:3579"
     # Uncomment the following line to enable the development mode
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     ports:
