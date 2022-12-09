@@ -55,12 +55,12 @@ export const MessagesSlice = createSlice({
       /* let currState = current(state); */
       let currState = state.allConv;
 
-      console.log("updateConvMessage currState", currState);
+      //console.log("updateConvMessage currState", currState);
 
       //Get the index of the conversation in the state
       let convIndex = currState.findIndex((conv) => conv.id === convId);
 
-      console.log("updateConvMessage convIndex", convIndex);
+      //console.log("updateConvMessage convIndex", convIndex);
 
       //Extract the conversation from the state
       let conv = currState[convIndex];
