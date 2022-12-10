@@ -8,30 +8,46 @@ import { appHelpers } from "../../helpers/appHelpers";
 
 import GCLogo from "../../assets/img/goofychat.png";
 import store from "../../helpers/redux/store";
+import { LoginModal } from "./LoginModal";
+import { toggleFastLoginModal } from "../../helpers/redux/slices/appSlice";
 
 const Name = (username: string) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const fastloginmodal = useSelector((state: any) => state.app.FASTLOGINMODAL);
+
   return (
     <div className="flex items-center">
+      {fastloginmodal && <LoginModal />}
       <p className="text-secondary text-xl font-bold mx-2">
         Hello, {username} !
       </p>
-      <button
-        className="w-20 h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
-        onClick={(e) => {
-          e.preventDefault();
-          appHelpers.deleteMercureCookie();
-          dispatch(eraseAllUser());
-          dispatch(eraseMessagesSlice());
-          persistStore(store).purge();
-          navigate("/");
-          location.reload();
-        }}
-      >
-        logout
-      </button>
+      <div>
+        <button
+          className="w-32 h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(toggleFastLoginModal());
+          }}
+        >
+          FASTLOGIN
+        </button>
+        <button
+          className="w-20 h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            appHelpers.deleteMercureCookie();
+            dispatch(eraseAllUser());
+            dispatch(eraseMessagesSlice());
+            persistStore(store).purge();
+            navigate("/");
+            location.reload();
+          }}
+        >
+          logout
+        </button>
+      </div>
     </div>
   );
 };
