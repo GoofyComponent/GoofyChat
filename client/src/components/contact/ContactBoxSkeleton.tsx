@@ -1,8 +1,7 @@
 import Skeleton from "react-loading-skeleton";
-import { SearchedContact } from "../SearchedContact";
-import { CreateBoxSkeleton } from "./CreateBoxSkeleton";
-import { LastContactsSkeleton } from "./LastContactsSkeleton";
-import { SearchedContactSkeleton } from "./SearchedContactSkeleton";
+import { CreateBoxSkeleton } from "../group/skeleton/CreateBoxSkeleton";
+import { LastContactsSkeleton } from "../group/skeleton/LastContactsSkeleton";
+import { SearchedContactSkeleton } from "../group/skeleton/SearchedContactSkeleton";
 
 export const ContactBoxSkeleton = () => {
   return (

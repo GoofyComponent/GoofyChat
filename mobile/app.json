@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "GoofyChat",
+    "description": "The authentic message app.",
+    "slug": "GoofyChat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/img/goofychat.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/goofysplash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#192124"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.destcom.GoofyChat"
+    },
+    "web": {
+      "favicon": "./src/assets/img/goofychat.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ef9701f9-b2c7-41b6-ab30-e9c260883d6a"
+      }
+    }
+  }
+}
