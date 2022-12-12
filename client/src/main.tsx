@@ -12,7 +12,8 @@ import { Home } from "./pages/Home";
 import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
 
-import Send from "./components/dev/Send";
+//Devloppement components
+//import Send from "./components/dev/Send";
 import App from "./pages/App";
 import store from "./helpers/redux/store";
 import { QuatreCentQuatre } from "./pages/QuatreCentQuatre";
@@ -45,10 +46,10 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
+  /* {
     path: "/send",
     element: <Send />,
-  },
+  }, */
   {
     path: "/404",
     element: <QuatreCentQuatre />,

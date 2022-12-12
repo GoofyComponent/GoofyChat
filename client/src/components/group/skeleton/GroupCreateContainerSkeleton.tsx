@@ -1,4 +1,4 @@
-import { ContactBoxSkeleton } from "./ContactBoxSkeleton";
+import { ContactBoxSkeleton } from "../../contact/ContactBoxSkeleton";
 import { CreateBoxSkeleton } from "./CreateBoxSkeleton";
 
 export const GroupCreateContainerSkeleton = () => {

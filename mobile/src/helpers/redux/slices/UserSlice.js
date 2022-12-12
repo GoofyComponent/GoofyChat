@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export const UserSlice = createSlice({
   name: "user",
@@ -11,10 +11,11 @@ export const UserSlice = createSlice({
     firstname: null,
     id: null,
     mercureListener: null,
+    contactSelected: [],
   },
   reducers: {
     setUserInfos: (state, action) => {
-      console.log("setUserInfos", action.payload);
+      //console.log("setUserInfos", action.payload);
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.lastname = action.payload.lastname;
@@ -63,6 +64,33 @@ export const UserSlice = createSlice({
       state.id = null;
       state.mercureListener = null;
     },
+    setContactSelected: (state, action) => {
+      if (
+        state.contactSelected.find(
+          (oldMember) => oldMember.username === action.payload.username
+        )
+      ) {
+        state.contactSelected = state.contactSelected.filter(
+          (oldMember) => oldMember.username !== action.payload.username
+        );
+      } else {
+        state.contactSelected.push(action.payload);
+      }
+    },
+    resetSelectedContact: (state) => {
+      state.contactSelected = [];
+    },
+    eraseAll: (state) => {
+      state.JWT_API = null;
+      state.JWT_Mercure = null;
+      state.username = null;
+      state.email = null;
+      state.lastname = null;
+      state.firstname = null;
+      state.id = null;
+      state.mercureListener = null;
+      state.contactSelected = [];
+    },
   },
 });
 
@@ -78,6 +106,9 @@ export const {
   setMercureListener,
   resetUser,
   eraseAllUser,
+  setContactSelected,
+  resetSelectedContact,
+  eraseAll,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;
