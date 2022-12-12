@@ -76,7 +76,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="flex justify-start my-auto">
+      <div className="flex flex-col md:justify-start md:flex-row my-auto md:overflow-hidden">
         {/* Contact block */}
         <ConversationList />
         {/* End Contact block */}

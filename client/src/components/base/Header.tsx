@@ -20,12 +20,12 @@ const Name = (username: string) => {
   return (
     <div className="flex items-center">
       {fastloginmodal && <LoginModal />}
-      <p className="text-secondary text-xl font-bold mx-2">
+      <p className="text-secondary hidden md:block text-xl font-bold mx-2">
         Hello, {username} !
       </p>
       <div>
         <button
-          className="w-32 h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
+          className="w-32 hidden md:block h-10 p-auto mx-2 rounded-2xl text-center bg-secondary text-tertiary font-bold hover:bg-primary hover:text-primary transition-all border-2 border-transparent hover:border-primary"
           onClick={(e) => {
             e.preventDefault();
             dispatch(toggleFastLoginModal());
@@ -45,7 +45,7 @@ const Name = (username: string) => {
             location.reload();
           }}
         >
-          logout
+          Logout
         </button>
       </div>
     </div>
