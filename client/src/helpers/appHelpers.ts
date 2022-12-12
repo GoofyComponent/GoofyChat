@@ -11,9 +11,12 @@ let createMercureCookie = async (JWT: string) => {
 
   cookies.set("mercureAuthorization", JWT, {
     expires: d,
-    secure: false,
-    sameSite: "strict",
+    domain: `${import.meta.env.VITE_DOMAIN_COOKIE}`,
+    /* secure: false, */
+    sameSite: "lax",
   });
+
+  console.log("cookie", cookies);
 };
 
 const deleteMercureCookie = () => {
