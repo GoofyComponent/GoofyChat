@@ -9,7 +9,7 @@ import { appHelpers } from "../../helpers/appHelpers";
 import GCLogo from "../../assets/img/goofychat.png";
 import store from "../../helpers/redux/store";
 import { LoginModal } from "./LoginModal";
-import { toggleFastLoginModal } from "../../helpers/redux/slices/appSlice";
+import { toggleFastLoginModal } from "../../helpers/redux/slices/AppSlice";
 
 const Name = (username: string) => {
   const navigate = useNavigate();

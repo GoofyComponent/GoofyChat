@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 
 import userReducer from "./slices/UserSlice";
 import mercureReducer from "./slices/MessagesSlice";
-import appReducer from "./slices/appSlice";
+import appReducer from "./slices/AppSlice";
 
 const persistConfig = {
   key: "root",

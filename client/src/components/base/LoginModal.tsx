@@ -5,7 +5,7 @@ import {
   incrementFastLoginStep,
   resetFastLoginStep,
   toggleFastLoginModal,
-} from "../../helpers/redux/slices/appSlice";
+} from "../../helpers/redux/slices/AppSlice";
 
 export const LoginModal = () => {
   const fastloginsteps = useSelector((state: any) => state.app.FASTLOGINSTEP);
