@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 class ConversationController extends AbstractController
 {
@@ -26,7 +28,7 @@ class ConversationController extends AbstractController
 
     
     #[Route('/api/conversation/create', name: 'app_conversation')]
-    public function create_conversation(Request $request, ManagerRegistry $doctrine, ConversationRepository $ConversationRepository): Response
+    public function create_conversation(Request $request, ManagerRegistry $doctrine, ConversationRepository $ConversationRepository, HubInterface $hub): Response
     {
         $parameters = json_decode($request->getContent(), true);
 
@@ -75,6 +77,21 @@ class ConversationController extends AbstractController
         $entityManager = $doctrine->getManager();
         $entityManager->persist($conversation);
         $entityManager->flush();
+
+        $members = $conversation->getMembers();
+
+        foreach ($members as $member) {
+
+            $update = new Update(
+                ["https://goofychat-mercure/personnal/". $member->getUsername()],
+                json_encode([
+                    'type' => 'conversation',
+                ]),
+                true
+            );
+            $hub->publish($update);
+        }
+        
 
         return $this->json([
             'message' => 'Conversation created',

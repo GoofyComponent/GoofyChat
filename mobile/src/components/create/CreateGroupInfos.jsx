@@ -108,8 +108,6 @@ export const CreateGroupInfos = ({ navigation }) => {
           paddingRight: 10,
           height: "100%",
           width: "100%",
-          borderColor: "red",
-          borderWidth: 1,
         }}
       >
         <View>

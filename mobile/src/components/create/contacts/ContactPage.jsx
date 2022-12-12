@@ -145,8 +145,6 @@ export const ContactPage = ({ navigation }) => {
             <View
               style={{
                 height: "83%",
-                borderColor: "red",
-                borderWidth: 1,
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -167,8 +165,6 @@ export const ContactPage = ({ navigation }) => {
             <View
               style={{
                 height: "83%",
-                borderColor: "red",
-                borderWidth: 1,
                 justifyContent: "center",
                 alignItems: "center",
               }}

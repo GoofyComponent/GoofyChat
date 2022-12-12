@@ -6,6 +6,7 @@ import { Header } from "../components/base/Header";
 import { ConversationList } from "../components/group/list/ConversationList";
 
 import {
+  setTriggerRefreshConv,
   triggerPosition,
   updateConvMessage,
   updateCurrConvMsgs,
@@ -50,17 +51,21 @@ function App() {
       let data = JSON.parse(event.data);
       console.log("onmessage", data);
 
-      data = {
-        ...data,
-        created_at: new Date(data.created_at.date).toString(),
-      };
+      if (data.type === "conversation") {
+        dispatch(setTriggerRefreshConv());
+      } else {
+        data = {
+          ...data,
+          created_at: new Date(data.created_at.date).toString(),
+        };
 
-      //console.log(data.id === id, data.id, id, "data.id === id");
+        //console.log(data.id === id, data.id, id, "data.id === id");
 
-      if (data !== null) {
-        dispatch(updateConvMessage(data));
-        dispatch(updateCurrConvMsgs(data));
-        dispatch(triggerPosition());
+        if (data !== null) {
+          dispatch(updateConvMessage(data));
+          dispatch(updateCurrConvMsgs(data));
+          dispatch(triggerPosition());
+        }
       }
     };
 

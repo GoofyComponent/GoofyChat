@@ -71,6 +71,7 @@ class MessageController extends AbstractController
                     'content' => $messageReceived,
                     'author' => $user->getUsername(),
                     'created_at' => $dateUTC,
+                    'type' => 'message',
                 ]),
                 true
             );

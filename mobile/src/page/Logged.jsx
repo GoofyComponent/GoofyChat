@@ -8,6 +8,7 @@ import EventSource, { EventSourceListener } from "react-native-sse";
 import "react-native-url-polyfill/auto";
 
 import {
+  setTriggerRefreshConv,
   triggerPosition,
   updateConvMessage,
   updateCurrConvMsgs,
@@ -51,15 +52,19 @@ export const Logged = ({ navigation }) => {
         let data = JSON.parse(event.data);
         console.log("onmessage", data);
 
-        data = {
-          ...data,
-          created_at: new Date(data.created_at.date).toString(),
-        };
+        if (data.type === "conversation") {
+          dispatch(setTriggerRefreshConv());
+        } else {
+          data = {
+            ...data,
+            created_at: new Date(data.created_at.date).toString(),
+          };
 
-        if (data !== null) {
-          dispatch(updateConvMessage(data));
-          dispatch(updateCurrConvMsgs(data));
-          dispatch(triggerPosition());
+          if (data !== null) {
+            dispatch(updateConvMessage(data));
+            dispatch(updateCurrConvMsgs(data));
+            dispatch(triggerPosition());
+          }
         }
       } else if (event.type === "error") {
         console.error("Connection error:", event.message);
