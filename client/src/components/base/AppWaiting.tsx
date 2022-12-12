@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const ContactChatWaiting = () => {
   return (
-    <div className="flex flex-col w-full md:w-5/6 h-[86vh] mx-2 mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl">
+    <div className="flex flex-col w-11/12 w-full md:w-5/6 h-[86vh] mx-auto mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl">
       <RiChat3Fill
         size={200}
         color={"#5EA7D4"}
