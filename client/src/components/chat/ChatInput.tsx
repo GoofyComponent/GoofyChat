@@ -36,7 +36,11 @@ export const ChatInput = ({ apiConfig, convId }: ChatinputProps) => {
     setWaitingForResponse(true);
 
     axios
-      .post("http://localhost:8245/api/message/publish", apiData, apiConfig)
+      .post(
+        `${import.meta.env.VITE_API_URL}/api/message/publish`,
+        apiData,
+        apiConfig
+      )
       .then((res) => {
         console.log("repojnse de la publication dun message", res);
         dispatch(triggerPosition());

@@ -24,7 +24,7 @@ export const ConversationList = () => {
 
     axios
       .post(
-        "http://localhost:8245/api/user/all-convs",
+        `${import.meta.env.VITE_API_URL}/api/user/all-convs`,
         {},
         {
           headers: {

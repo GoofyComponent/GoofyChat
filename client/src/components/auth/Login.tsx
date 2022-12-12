@@ -21,8 +21,8 @@ export const Login = () => {
   const dispatch = useDispatch();
   const APIJWT = useSelector((state: any) => state.user.JWT_API);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.fr");
+  const [password, setPassword] = useState("test");
 
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState(null);
@@ -37,7 +37,7 @@ export const Login = () => {
     e.preventDefault();
     setWaiting(true);
 
-    var url = "http://localhost:8245/api/login";
+    var url = `${import.meta.env.VITE_API_URL}/api/login`;
     var headers = {};
 
     axios
@@ -63,7 +63,7 @@ export const Login = () => {
       .then((JWT) => {
         axios
           .post(
-            "http://localhost:8245/api/mercureLogin",
+            `${import.meta.env.VITE_API_URL}/api/mercureLogin`,
             {},
             {
               headers: {
@@ -140,6 +140,7 @@ export const Login = () => {
               type="email"
               name="email"
               id="email"
+              value={email}
               className="w-80 h-10 rounded-md border-2 border-primary mt-2 outline-none p-2"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -153,6 +154,7 @@ export const Login = () => {
               type="password"
               name="password"
               id="password"
+              value={password}
               className="w-80 h-10 rounded-md border-2 border-primary mt-2 outline-none p-2"
               onChange={(e) => setPassword(e.target.value)}
             />

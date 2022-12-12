@@ -45,7 +45,7 @@ export const ChatContainer = () => {
 
     axios
       .post(
-        `http://localhost:8245/api/conversation`,
+        `${import.meta.env.VITE_API_URL}/api/conversation`,
         {
           conv_id: id,
         },

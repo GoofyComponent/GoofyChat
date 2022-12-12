@@ -19,7 +19,7 @@ export const GroupCreate = () => {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8245/api/user/all-contacts`, {}, config)
+      .post(`${import.meta.env.VITE_API_URL}/api/user/all-contacts`, {}, config)
       .then((res) => {
         console.log(
           "reponse de l'appel pour recup les derniers contact de l'user",
