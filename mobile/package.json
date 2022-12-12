@@ -31,7 +31,9 @@
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
     "universal-cookie": "^4.0.4",
-    "expo-dev-client": "~2.0.1"
+    "expo-dev-client": "~2.0.1",
+    "expo-camera": "~13.1.0",
+    "expo-barcode-scanner": "~12.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

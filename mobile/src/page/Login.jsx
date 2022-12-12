@@ -172,6 +172,18 @@ export const Login = ({ navigation }) => {
           </Text>
         )}
       </StyledButton>
+      <StyledButton onPress={() => navigation.navigate("FastLogin")}>
+        <Text
+          style={{
+            color: "#FFF",
+            textAlign: "center",
+            fontFamily: "AgeoSemiBold",
+            fontSize: 20,
+          }}
+        >
+          FASTLOGIN
+        </Text>
+      </StyledButton>
       <TouchableOpacity onPress={() => navigation.navigate("Register")}>
         <Text
           style={{

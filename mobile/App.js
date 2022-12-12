@@ -16,6 +16,7 @@ import { Logged } from "./src/page/Logged";
 import { Welcome } from "./src/page/Welcome";
 import { Login } from "./src/page/Login";
 import { Register } from "./src/page/Register";
+import { Fastlogin } from "./src/page/Fastlogin";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,11 @@ export default function App() {
             <Stack.Screen
               name="Login"
               component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="FastLogin"
+              component={Fastlogin}
               options={{ headerShown: false }}
             />
             <Stack.Screen

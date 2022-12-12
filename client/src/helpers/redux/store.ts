@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 
 import userReducer from "./slices/UserSlice";
 import mercureReducer from "./slices/MessagesSlice";
+import appReducer from "./slices/appSlice";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,7 @@ const persistConfig = {
 const reducers = combineReducers({
   user: userReducer,
   messages: mercureReducer,
+  app: appReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
