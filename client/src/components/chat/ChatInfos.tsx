@@ -21,7 +21,6 @@ const SectionChatInfos = tw.section<any>`
 export const ChatInfos = ({ convDataInfos }: chatinfosProps) => {
   return (
     <SectionChatInfos>
-      <img src="" alt="dsqd"></img>
       <p className="my-auto text-ellipsis w-[20rem] md:w-[40rem] overflow-hidden whitespace-nowrap">
         {convDataInfos.name}
       </p>

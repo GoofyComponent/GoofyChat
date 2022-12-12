@@ -43,7 +43,7 @@ export const ConversationList = () => {
   }, [triggerRefreshConv]);
 
   return (
-    <div className="flex flex-col w-full md:w-1/6 h-[86vh] mx-2 mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl overflow-auto">
+    <div className="flex flex-col w-11/12 md:w-1/6 h-[86vh] mx-auto mb-2 md:mr-2 mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl overflow-auto">
       <Link
         to={`/app/group/new`}
         className="flex 
@@ -61,9 +61,9 @@ export const ConversationList = () => {
       hover:border-transparent
       "
       >
-        <FaPlus className="m-auto" size={40} color={"#5EA7D4"} />
-        <p className="m-auto font-bold text-xl text-primary py-4">
-          Create a new conversation
+        <FaPlus className="mx-5 my-auto" size={25} color={"#5EA7D4"} />
+        <p className="m-left font-bold text-xl text-primary py-4 truncate">
+          New conversation
         </p>
       </Link>
       {allConv.map((conv: any) => (

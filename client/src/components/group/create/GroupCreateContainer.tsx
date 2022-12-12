@@ -37,7 +37,7 @@ export const GroupCreate = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-around w-full md:w-5/6 h-[85vh] mx-2 mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl overflow-auto">
+    <div className="flex flex-col w-11/12 md:flex-row md:justify-around w-full md:w-5/6 h-[85vh] mx-auto mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl overflow-auto">
       <ContactBox
         lastContacts={lastContacts}
         resultsSearch={resultsSearch}

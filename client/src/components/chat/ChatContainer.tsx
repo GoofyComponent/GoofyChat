@@ -75,7 +75,7 @@ export const ChatContainer = () => {
   }
 
   return (
-    <div className="flex flex-col w-full md:w-5/6 h-[86vh] mx-2 mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl">
+    <div className="flex flex-col w-full w-11/12 md:w-5/6 h-[86vh] mx-auto mt-auto md:my-auto p-2 bg-[#3B4D54] rounded-xl">
       <ChatInfos convDataInfos={convData.conversationData} />
       <div
         className="overflow-auto max-h-[39rem] mt-auto mb-2 px-2 scroll-smooth"
