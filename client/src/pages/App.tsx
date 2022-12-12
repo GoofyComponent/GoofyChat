@@ -29,7 +29,9 @@ function App() {
 
     //if (document.cookie.indexOf("mercureAuthorization") === -1) return;
 
-    const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
+    const urlEventSource = new URL(
+      `${import.meta.env.VITE_MERCURE_URL}/.well-known/mercure`
+    );
     urlEventSource.searchParams.append("topic", mercureListener);
 
     /* const eventSource = new EventSource(urlEventSource.toString(), {

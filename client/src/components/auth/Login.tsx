@@ -37,7 +37,7 @@ export const Login = () => {
     e.preventDefault();
     setWaiting(true);
 
-    var url = "http://localhost:8245/api/login";
+    var url = `${import.meta.env.VITE_API_URL}/api/login`;
     var headers = {};
 
     axios
@@ -63,7 +63,7 @@ export const Login = () => {
       .then((JWT) => {
         axios
           .post(
-            "http://localhost:8245/api/mercureLogin",
+            `${import.meta.env.VITE_API_URL}/api/mercureLogin`,
             {},
             {
               headers: {

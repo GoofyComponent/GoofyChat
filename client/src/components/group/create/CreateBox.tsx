@@ -37,7 +37,7 @@ export const CreateBox = ({ members, setMembers }: CreateBoxProps) => {
 
     axios
       .post(
-        `http://localhost:8245/api/conversation/create`,
+        `${import.meta.env.VITE_API_URL}/api/conversation/create`,
         {
           conv_name: convName,
           members: usernameArray,

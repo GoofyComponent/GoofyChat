@@ -34,7 +34,7 @@ export const ContactBox = ({
 
     axios
       .post(
-        `http://localhost:8245/api/search-contact`,
+        `${import.meta.env.VITE_API_URL}/api/search-contact`,
         { search: inputSearch },
         config
       )
