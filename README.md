@@ -1,4 +1,4 @@
-# Symfony Docker
+# A React & React Native instant chat app
 
 ## Lancement
 
