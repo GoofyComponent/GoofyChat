@@ -27,8 +27,8 @@ class JWTHelper
         //$publish=[];
         
         //$subscribe[] = "https://example.com/user/{$user->getId()}/{?topic}";
-        $subscribe[] = "https://goofychat-mercure/personnal/{$username}";
-        //$publish[] = "https://goofychat-mercure/personnal/{$username}";
+        $subscribe[] = "goofychat_caddy/personnal/{$username}";
+        //$publish[] = "goofychat_caddy/personnal/{$username}";
   
 
         $payload = ["mercure" => [

@@ -130,7 +130,7 @@ const SubscribeConv = () => {
 
     url.searchParams.append(
       "topic",
-      "https://goofychat-mercure/conversation/3"
+      "goofychat_caddy/conversation/3"
     );
 
     const eventSource = new EventSource(url, { withCredentials: true });

@@ -83,7 +83,7 @@ class ConversationController extends AbstractController
         foreach ($members as $member) {
 
             $update = new Update(
-                ["https://goofychat-mercure/personnal/". $member->getUsername()],
+                ["goofychat_caddy/personnal/". $member->getUsername()],
                 json_encode([
                     'type' => 'conversation',
                 ]),

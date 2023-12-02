@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  client:
+    container_name: goofychat_client
+    image: goofychat_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    restart: on-failure
+    ports:
+      - "3579:80"
+    networks:
+      - goofychat_network
+
+  symfony:
+    container_name: goofychat_symfony
+    build: symfony_config
+    ports:
+      - "8245:80"
+    volumes:
+      - ./symfony_config/vhosts:/etc/apache2/sites-enabled
+      - ./symfony_project:/var/www/symfony_project
+    restart: on-failure
+    networks:
+      - goofychat_network
+
+  db:
+    container_name: goofychat_db
+    image: mariadb:10.7.1
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: data
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - goofychat_network
+
+  caddy:
+    container_name: goofychat_caddy
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      SERVER_NAME: ":80"
+      MERCURE_PUBLISHER_JWT_KEY: ""
+      MERCURE_SUBSCRIBER_JWT_KEY: ""
+      MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:19000" "http://localhost:5173" "http://127.0.0.1:5173"
+    # Uncomment the following line to enable the development mode
+    #command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    ports:
+      - "9090:80"
+      - "9443:443"
+    networks:
+      - goofychat_network
+
+networks:
+  goofychat_network:
+
+volumes:
+  db-data:

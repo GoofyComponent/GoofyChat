@@ -2,8 +2,8 @@
   "build": {
     "preview": {
       "env": {
-        "API_URL": "https://goofychat-server.destcom.website",
-        "MERCURE_URL": "https://goofychat-caddy.destcom.website"
+        "API_URL": "https://goofychat-server.stroyco.eu",
+        "MERCURE_URL": "https://goofychat-caddy.stroyco.eu"
       },
       "android": {
         "buildType": "apk"

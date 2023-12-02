@@ -65,7 +65,7 @@ class MessageController extends AbstractController
 
             
             $update = new Update(
-                ["https://goofychat-mercure/personnal/". $member->getUsername()],
+                ["goofychat_caddy/personnal/". $member->getUsername()],
                 json_encode([
                     'id' => $conv_id,
                     'content' => $messageReceived,
